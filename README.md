@@ -1,3 +1,3 @@
-# SUS
+# Server Web Scripts
 
-SUS (SpaceUp-Script)
+SWS - A simple script language to create high extensible endpoints.
