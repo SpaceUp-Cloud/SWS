@@ -11,17 +11,12 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-plugins {
-    kotlin("jvm") version "1.5.30"
-}
+package technology.iatlas.sws
 
-group = "technology.iatlas.sws"
-version = "1.0-SNAPSHOT"
+/**
+ * ServerWebScript is the most import object which presents itself
+ */
+class ServerWebScript {
 
-repositories {
-    mavenCentral()
-}
 
-dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
 }
