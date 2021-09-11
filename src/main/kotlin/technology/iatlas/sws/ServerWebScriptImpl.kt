@@ -15,6 +15,12 @@ package technology.iatlas.sws
 
 import java.io.FileInputStream
 
-sealed interface ServerWebScript {
-    fun parse(input: FileInputStream): ServerWebScript
+/**
+ * ServerWebScript is the most important object which presents itself
+ */
+object ServerWebScriptImpl : SWSBase() {
+    override fun parse(input: FileInputStream): ServerWebScriptImpl {
+        // TODO: Create a "Ruler" class what contains the logic *how* to parse
+        TODO("Not yet implemented")
+    }
 }

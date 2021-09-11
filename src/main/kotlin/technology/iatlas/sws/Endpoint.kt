@@ -13,8 +13,4 @@
 
 package technology.iatlas.sws
 
-import java.io.FileInputStream
-
-sealed interface SWS {
-    fun parse(input: FileInputStream): ServerWebScript
-}
+data class Endpoint(val httpAction: String, val url: String)
