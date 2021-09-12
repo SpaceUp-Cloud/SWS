@@ -1,0 +1,14 @@
+SWAGGER_DOC: """ """
+HOSTER: Uberspace
+SERVER_ENDPOINT: GET /test/basic
+SERVER_LANG: /usr/bin/env bash
+
+SERVER_SCRIPT: """
+echo "Hello World!"
+"""
+
+CLIENT_RESPONSE: """
+{
+    "MyResponse": SWS_RESPONSE
+}
+"""

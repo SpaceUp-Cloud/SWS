@@ -13,8 +13,6 @@
 
 package technology.iatlas.sws
 
-import java.io.FileInputStream
-
 sealed interface ServerWebScript {
-    fun parse(input: FileInputStream): ServerWebScript
+    fun parse(): ServerWebScript
 }

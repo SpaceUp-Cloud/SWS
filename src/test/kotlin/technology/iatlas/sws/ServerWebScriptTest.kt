@@ -14,11 +14,14 @@
 package technology.iatlas.sws
 
 import org.junit.jupiter.api.Test
+import java.io.FileInputStream
+import kotlin.test.assertNotNull
 
 internal class ServerWebScriptTest {
 
     @Test
-    fun parse() {
-
+    fun createServerWebScriptObject() {
+        val sws: ServerWebScript = SWSCreator.create(FileInputStream(ServerWebScript::class.java.getResource("/testdata/basic.sws").file))
+        assertNotNull(sws, "ServerWebScript is not null")
     }
 }

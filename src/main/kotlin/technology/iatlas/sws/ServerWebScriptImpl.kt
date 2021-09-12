@@ -18,9 +18,15 @@ import java.io.FileInputStream
 /**
  * ServerWebScript is the most important object which presents itself
  */
-object ServerWebScriptImpl : SWSBase() {
-    override fun parse(input: FileInputStream): ServerWebScriptImpl {
+class ServerWebScriptImpl(var input: FileInputStream) : SWSBase() {
+    override fun parse(): ServerWebScript {
         // TODO: Create a "Ruler" class what contains the logic *how* to parse
         TODO("Not yet implemented")
+    }
+}
+
+object SWSCreator {
+    fun create(input: FileInputStream): ServerWebScript {
+        return ServerWebScriptImpl(input)
     }
 }
