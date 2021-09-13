@@ -11,28 +11,13 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package technology.iatlas.sws
+package technology.iatlas.sws.ruleengine.rules
 
-import technology.iatlas.sws.ruleengine.Parser
-import technology.iatlas.sws.ruleengine.rules.HosterRule
 import java.io.File
 
-/**
- * ServerWebScript is the most important object which presents itself
- */
-class ServerWebScriptImpl(var file: File) : SWSBase() {
-    override fun parse(): ServerWebScript {
-        val parser = Parser()
-        parser
-            .addRule(HosterRule())
-        parser.parse()
-
-        return this
-    }
-}
-
-object SWSCreator {
-    fun create(file: File): ServerWebScript {
-        return ServerWebScriptImpl(file)
+class HosterRule : BaseRule("Hoster") {
+    override fun proceed(file: File) {
+        super.proceed(file)
+        TODO("Not yet implemented")
     }
 }

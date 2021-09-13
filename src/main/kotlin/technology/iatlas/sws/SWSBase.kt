@@ -13,6 +13,8 @@
 
 package technology.iatlas.sws
 
+import technology.iatlas.sws.objects.Endpoint
+
 abstract class SWSBase: ServerWebScript {
     /**
      * Presents comments in the script
