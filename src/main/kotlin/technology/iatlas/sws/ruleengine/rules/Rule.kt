@@ -13,8 +13,9 @@
 
 package technology.iatlas.sws.ruleengine.rules
 
+import technology.iatlas.sws.ServerWebScript
 import java.io.File
 
 interface Rule {
-    fun proceed(file: File)
+    fun proceed(sws: ServerWebScript, file: File)
 }

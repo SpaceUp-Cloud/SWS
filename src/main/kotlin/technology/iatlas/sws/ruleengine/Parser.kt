@@ -13,10 +13,11 @@
 
 package technology.iatlas.sws.ruleengine
 
+import technology.iatlas.sws.ServerWebScript
 import technology.iatlas.sws.ruleengine.rules.Rule
 import java.io.File
 
-class Parser(val file: File) {
+class Parser(val sws: ServerWebScript, val file: File) {
     val rules: ArrayList<Rule> = arrayListOf()
 
     fun addRule(rule: Rule): Parser {
@@ -26,7 +27,7 @@ class Parser(val file: File) {
 
     fun parse() {
         rules.forEach {
-            it.proceed(file)
+            it.proceed(sws, file)
         }
     }
 }

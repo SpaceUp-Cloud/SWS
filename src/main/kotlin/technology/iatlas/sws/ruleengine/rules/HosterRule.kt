@@ -13,11 +13,12 @@
 
 package technology.iatlas.sws.ruleengine.rules
 
+import technology.iatlas.sws.ServerWebScript
 import java.io.File
 
 class HosterRule : BaseRule("Hoster") {
-    override fun proceed(file: File) {
-        super.proceed(file)
-        TODO("Not yet implemented")
+    override fun proceed(sws: ServerWebScript, file: File) {
+        super.proceed(sws, file)
+        //TODO("Not yet implemented")
     }
 }

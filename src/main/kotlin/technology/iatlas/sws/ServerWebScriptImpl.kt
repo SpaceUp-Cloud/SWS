@@ -13,6 +13,8 @@
 
 package technology.iatlas.sws
 
+import org.apache.logging.log4j.kotlin.Logging
+import technology.iatlas.sws.objects.Endpoint
 import technology.iatlas.sws.ruleengine.Parser
 import technology.iatlas.sws.ruleengine.rules.HosterRule
 import java.io.File
@@ -20,19 +22,47 @@ import java.io.File
 /**
  * ServerWebScript is the most important object which presents itself
  */
-class ServerWebScriptImpl(var file: File) : SWSBase() {
+class ServerWebScriptImpl(var file: File,
+                                   override var _metaComments: List<String>,
+                                   override var hoster: String,
+                                   override var swaggerDoc: String,
+                                   override var serverLang: String,
+                                   override var clientLang: String,
+                                   override var serverEndpoint: Endpoint,
+                                   override var serverScript: String,
+                                   override var serverResponseObjects: List<Any>,
+                                   override var clientResponse: String
+) : ServerWebScript, Logging {
+    private var sws: ServerWebScript
+
+    init {
+        sws = this.parse()
+    }
+
     override fun parse(): ServerWebScript {
-        val parser = Parser()
+        logger.info("Called parser")
+        val parser = Parser(this, file)
         parser
             .addRule(HosterRule())
         parser.parse()
 
         return this
     }
+
+    companion object { }
+}
+
+internal fun ServerWebScriptImpl.Companion.create(file: File): ServerWebScript {
+    return ServerWebScriptImpl(
+        file,
+        arrayListOf(),
+        "Uberspace", "", "", "",
+        Endpoint("", ""), "", arrayListOf(), ""
+    )
 }
 
 object SWSCreator {
     fun create(file: File): ServerWebScript {
-        return ServerWebScriptImpl(file)
+        return ServerWebScriptImpl.create(file)
     }
 }

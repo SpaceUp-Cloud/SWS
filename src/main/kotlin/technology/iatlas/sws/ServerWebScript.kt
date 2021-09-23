@@ -13,6 +13,68 @@
 
 package technology.iatlas.sws
 
+import technology.iatlas.sws.objects.Endpoint
+
 sealed interface ServerWebScript {
+
+    /**
+     * Presents comments in the script
+     */
+    var _metaComments: List<String>
+
+    /**
+     * Defines where we should run.
+     *
+     * Property: HOSTER
+     *
+     * Default: Uberspace
+     */
+    var hoster: String
+
+    /**
+     * Hold the swagger documentation
+     *
+     * Property: SWAGGER_DOC
+     */
+    var swaggerDoc: String
+    /**
+     * Defines the script we should execute
+     *
+     * Property: SERVER_LANG
+     */
+    var serverLang: String
+    /**
+     * Defines the response object language
+     *
+     * Property: CLIENT_LANG
+     */
+    var clientLang: String
+    /**
+     * Defines the endpoint where we should be exposed to
+     *
+     * Property: SERVER_ENDPOINT
+     */
+    var serverEndpoint: Endpoint
+    /**
+     * Depending on the server language, we define the script which will run on the server
+     *
+     * Property: SERVER_SCRIPT
+     */
+    var serverScript: String
+    /**
+     * Represents the return values from the script
+     *
+     * Property: SERVER_RESPONSE_OBJECTS
+     *
+     * Example: SERVER_RESPONSE_OBJECTS: obj1; Obj2; ...
+     */
+    var serverResponseObjects: List<Any>
+    /**
+     * Present the response object for the endpoint
+     *
+     * Property: CLIENT_RESPONSE
+     */
+    var clientResponse: String
+
     fun parse(): ServerWebScript
 }

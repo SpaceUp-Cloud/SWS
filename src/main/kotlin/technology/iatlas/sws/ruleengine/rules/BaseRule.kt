@@ -14,14 +14,15 @@
 package technology.iatlas.sws.ruleengine.rules
 
 import org.apache.logging.log4j.kotlin.Logging
+import technology.iatlas.sws.ServerWebScript
 import java.io.File
 
 abstract class BaseRule(val rulename: String): Rule, Logging {
     /**
      * It's important to call super.proceed(file) to do the base parsing
      */
-    override fun proceed(file: File) {
+    override fun proceed(sws: ServerWebScript, file: File) {
         logger.info("Process rule $rulename")
-        TODO("Not yet implemented")
+        //TODO("Not yet implemented")
     }
 }
