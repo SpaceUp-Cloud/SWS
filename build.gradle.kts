@@ -13,6 +13,7 @@
 
 plugins {
     kotlin("jvm") version "1.5.30"
+    id("org.sonarqube") version "3.3"
 }
 
 group = "technology.iatlas.sws"
