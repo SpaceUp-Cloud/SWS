@@ -33,35 +33,49 @@ class ServerWebScriptImpl(var file: File,
                                    override var serverResponseObjects: List<Any>,
                                    override var clientResponse: String
 ) : ServerWebScript, Logging {
-    private var sws: ServerWebScript
+    private lateinit var sws: ServerWebScript
 
-    init {
-        sws = this.parse()
-    }
-
-    override fun parse(): ServerWebScript {
+    override fun parse() {
         logger.info("Called parser")
         val parser = Parser(this, file)
         parser
             .addRule(HosterRule())
         parser.parse()
 
-        return this
+        sws = this
     }
 
     companion object { }
 }
 
-internal fun ServerWebScriptImpl.Companion.create(file: File): ServerWebScript {
-    return ServerWebScriptImpl(
+internal fun ServerWebScriptImpl.Companion.createAndParse(file: File): ServerWebScript {
+    val sws = ServerWebScriptImpl(
         file,
         arrayListOf(),
         "Uberspace", "", "", "",
         Endpoint("", ""), "", arrayListOf(), ""
     )
+
+    sws.parse()
+    return sws
+}
+
+internal fun ServerWebScriptImpl.Companion.create(file: File): ServerWebScript {
+    val sws = ServerWebScriptImpl(
+        file,
+        arrayListOf(),
+        "Uberspace", "", "", "",
+        Endpoint("", ""), "", arrayListOf(), ""
+    )
+
+    return sws
 }
 
 object SWSCreator {
+    fun createAndParse(file: File): ServerWebScript {
+        return ServerWebScriptImpl.createAndParse(file)
+    }
+
     fun create(file: File): ServerWebScript {
         return ServerWebScriptImpl.create(file)
     }

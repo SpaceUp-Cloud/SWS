@@ -13,16 +13,25 @@
 
 package technology.iatlas.sws
 
+import org.apache.logging.log4j.kotlin.Logging
 import org.junit.jupiter.api.Test
 import java.io.File
-import java.io.FileInputStream
+import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
-internal class ServerWebScriptTest {
+internal class ServerWebScriptTest: Logging {
 
     @Test
     fun createServerWebScriptObject() {
+        logger.info("Create only the object")
         val sws: ServerWebScript = SWSCreator.create(File(ServerWebScript::class.java.getResource("/testdata/basic.sws").file))
         assertNotNull(sws, "ServerWebScript is not null")
+    }
+
+    @Test
+    fun createAndParseHoster() {
+        logger.info("Create and parse the object")
+        val sws: ServerWebScript = SWSCreator.createAndParse(File(ServerWebScript::class.java.getResource("/testdata/basic.sws").file))
+        assertEquals("Uberspace", sws.hoster)
     }
 }

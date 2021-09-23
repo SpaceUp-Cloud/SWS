@@ -76,5 +76,5 @@ sealed interface ServerWebScript {
      */
     var clientResponse: String
 
-    fun parse(): ServerWebScript
+    fun parse()
 }
