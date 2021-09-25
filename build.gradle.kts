@@ -44,5 +44,18 @@ tasks.test {
 }
 
 tasks.jacocoTestReport {
+    reports {
+        xml.isEnabled = true
+    }
     dependsOn(tasks.test) // tests are required to run before generating the report
+}
+
+sonarqube {
+    properties {
+        property("sonar.host.url", "https://sonar.iatlas.dev")
+        property("sonar.login", "14b8614de179be8155540e5ff81b3a715874e1b1")
+        property("sonar.projectKey", "SpaceUp-SWS")
+        property("sonar.sourceEncoding", "UTF-8")
+        property("sonar.java.coveragePlugin", "jacoco")
+    }
 }
