@@ -23,6 +23,5 @@ abstract class BaseRule(val rulename: String): Rule, Logging {
      */
     override fun proceed(sws: ServerWebScript, file: File) {
         logger.info("Process rule $rulename")
-        //TODO("Not yet implemented")
     }
 }
