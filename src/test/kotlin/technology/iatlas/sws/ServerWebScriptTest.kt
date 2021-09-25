@@ -32,6 +32,12 @@ internal class ServerWebScriptTest: Logging {
     fun createAndParseHoster() {
         logger.info("Create and parse the object")
         val sws: ServerWebScript = SWSCreator.createAndParse(File(ServerWebScript::class.java.getResource("/testdata/basic.sws").file))
+        assertNotNull(sws, "ServerWebScript is not null")
+    }
+
+    @Test
+    fun testHoster() {
+        val sws = SWSCreator.create(File(ServerWebScript::class.java.getResource("/testdata/basic.sws").file))
         assertEquals("Uberspace", sws.hoster)
     }
 }
