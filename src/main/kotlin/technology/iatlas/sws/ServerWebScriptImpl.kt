@@ -61,14 +61,12 @@ internal fun ServerWebScriptImpl.Companion.createAndParse(file: File): ServerWeb
 }
 
 internal fun ServerWebScriptImpl.Companion.create(file: File): ServerWebScript {
-    val sws = ServerWebScriptImpl(
+    return ServerWebScriptImpl(
         file,
         arrayListOf(),
         "Uberspace", "", "", "",
         Endpoint("", ""), "", arrayListOf(), ""
     )
-
-    return sws
 }
 
 object SWSCreator {

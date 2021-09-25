@@ -14,7 +14,6 @@
 package technology.iatlas.sws.ruleengine.rules
 
 import technology.iatlas.sws.ServerWebScript
-import technology.iatlas.sws.objects.ParserException
 import java.io.File
 
 class HosterRule : BaseRule("Hoster") {

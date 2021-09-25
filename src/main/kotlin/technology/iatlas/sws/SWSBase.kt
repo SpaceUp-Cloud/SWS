@@ -13,7 +13,4 @@
 
 package technology.iatlas.sws
 
-import technology.iatlas.sws.objects.Endpoint
-
-abstract class SWSBase: ServerWebScript {
-}
+abstract class SWSBase: ServerWebScript { }
