@@ -14,6 +14,7 @@
 plugins {
     kotlin("jvm") version "1.5.30"
     id("org.sonarqube") version "3.3"
+    jacoco
 }
 
 group = "technology.iatlas.sws"
@@ -32,6 +33,16 @@ dependencies {
     testImplementation(kotlin("test"))
 }
 
+jacoco {
+    toolVersion = "0.8.7"
+    reportsDirectory.set(layout.buildDirectory.dir("jacoco"))
+}
+
 tasks.test {
     useJUnitPlatform()
+    finalizedBy(tasks.jacocoTestReport) // report is always generated after tests run
+}
+
+tasks.jacocoTestReport {
+    dependsOn(tasks.test) // tests are required to run before generating the report
 }
