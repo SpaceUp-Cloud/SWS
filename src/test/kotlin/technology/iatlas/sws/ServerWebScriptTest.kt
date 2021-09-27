@@ -40,4 +40,11 @@ internal class ServerWebScriptTest: Logging {
         val sws = SWSCreator.create(File(ServerWebScript::class.java.getResource("/testdata/basic.sws").file))
         assertEquals("Uberspace", sws.hoster)
     }
+
+    @Test
+    fun testEndpoint() {
+        val sws: ServerWebScript = SWSCreator.createAndParse(File(ServerWebScript::class.java.getResource("/testdata/basic.sws").file))
+        assertEquals("GET", sws.serverEndpoint.httpAction)
+        assertEquals("/test/basic", sws.serverEndpoint.url)
+    }
 }

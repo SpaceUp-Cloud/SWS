@@ -16,6 +16,7 @@ package technology.iatlas.sws
 import org.apache.logging.log4j.kotlin.Logging
 import technology.iatlas.sws.objects.Endpoint
 import technology.iatlas.sws.ruleengine.Parser
+import technology.iatlas.sws.ruleengine.rules.EndpointRule
 import technology.iatlas.sws.ruleengine.rules.HosterRule
 import java.io.File
 
@@ -40,6 +41,7 @@ class ServerWebScriptImpl(var file: File,
         val parser = Parser(this, file)
         parser
             .addRule(HosterRule())
+            .addRule(EndpointRule())
         parser.parse()
 
         sws = this
