@@ -1,14 +1,34 @@
-SWAGGER_DOC: """ """
-HOSTER: Uberspace
-SERVER_ENDPOINT: GET /test/basic
-SERVER_LANG: /usr/bin/env bash
+# That's a single line comment without usage
 
+#
+# Just another comment but multiline ;)
+#
+
+# If you want to add documentation to the REST endpoint, use this swagger doc with multiline functionality
+# But, future functionality might be that I will generate it for you by this file information
+SWAGGER_DOC: """
+Just to lazy to write something useful here.
+"""
+
+# This indicates where this script is able to run.
+# Default: Uberspace
+HOSTER: Uberspace
+
+# That's a basic endpoint which needs to be register in your web server application
+SERVER_ENDPOINT: GET /test/basic
+
+# This is the skeleton script which will be used for the generated one.
+SERVER_LANG: /usr/bin/env bash
 SERVER_SCRIPT: """
+# $x will be reserved for the parameters from the REST endpoint
 echo "Hello World!"
 """
 
+# This describes how the response looks like for the client
 CLIENT_RESPONSE: """
 {
+    # SWS_RESPONSE is a special variable which contains all stdout from your SERVER_SCRIPT
+    # By this example "Hello World!"
     "MyResponse": SWS_RESPONSE
 }
 """
