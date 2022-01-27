@@ -16,7 +16,7 @@ package technology.iatlas.sws.ruleengine.rules
 import technology.iatlas.sws.ServerWebScript
 import java.io.File
 
-class HosterRule : BaseRule("Hoster") {
+class HosterRule : BaseRule("HOSTER") {
     override fun proceed(sws: ServerWebScript, file: File) {
         super.proceed(sws, file)
         val regexRule = Regex("(hoster|HOSTER|Hoster)")

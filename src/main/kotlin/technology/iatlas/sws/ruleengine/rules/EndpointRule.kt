@@ -17,7 +17,7 @@ import technology.iatlas.sws.ServerWebScript
 import technology.iatlas.sws.objects.Endpoint
 import java.io.File
 
-class EndpointRule : BaseRule("Endpoint") {
+class EndpointRule : BaseRule("SERVER_ENDPOINT") {
     override fun proceed(sws: ServerWebScript, file: File) {
         super.proceed(sws, file)
         val regexRule = Regex("(endpoint|ENDPOINT|Endpoint)")

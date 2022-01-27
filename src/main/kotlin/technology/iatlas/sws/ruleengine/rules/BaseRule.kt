@@ -17,11 +17,11 @@ import org.apache.logging.log4j.kotlin.Logging
 import technology.iatlas.sws.ServerWebScript
 import java.io.File
 
-abstract class BaseRule(val rulename: String): Rule, Logging {
+abstract class BaseRule(private val rule: String): Rule, Logging {
     /**
      * It's important to call super.proceed(file) to do the base parsing
      */
     override fun proceed(sws: ServerWebScript, file: File) {
-        logger.info("Process rule $rulename")
+        logger.info("Process rule $rule")
     }
 }
