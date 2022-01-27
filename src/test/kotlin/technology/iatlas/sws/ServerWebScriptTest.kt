@@ -21,12 +21,13 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
 
 internal class ServerWebScriptTest: Logging {
+    private val swsBaseFile = ServerWebScript::class.java.getResource("/testdata/basic.sws").file
 
     @Test
     @Order(1)
     fun createServerWebScriptObject() {
         logger.info("Create only the object")
-        val sws: ServerWebScript = SWSCreator.create(File(ServerWebScript::class.java.getResource("/testdata/basic.sws").file))
+        val sws: ServerWebScript = SWSCreator.create(File(swsBaseFile))
         assertNotNull(sws, "ServerWebScript is not null")
     }
 
@@ -34,22 +35,30 @@ internal class ServerWebScriptTest: Logging {
     @Order(2)
     fun createAndParseHoster() {
         logger.info("Create and parse the object")
-        val sws: ServerWebScript = SWSCreator.createAndParse(File(ServerWebScript::class.java.getResource("/testdata/basic.sws").file))
+        val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile))
         assertNotNull(sws, "ServerWebScript is not null")
     }
 
     @Test
     @Order(3)
     fun testHoster() {
-        val sws = SWSCreator.create(File(ServerWebScript::class.java.getResource("/testdata/basic.sws").file))
+        // 'create' works as it is default, else it would fail
+        val sws = SWSCreator.create(File(swsBaseFile))
         assertEquals("Uberspace", sws.hoster)
     }
 
     @Test
     @Order(4)
     fun testEndpoint() {
-        val sws: ServerWebScript = SWSCreator.createAndParse(File(ServerWebScript::class.java.getResource("/testdata/basic.sws").file))
+        val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile))
         assertEquals("GET", sws.serverEndpoint.httpAction)
         assertEquals("/test/basic", sws.serverEndpoint.url)
+    }
+
+    @Test
+    @Order(5)
+    fun testServerLang() {
+        val sws = SWSCreator.createAndParse(File(swsBaseFile))
+        assertEquals("/usr/bin/env bash", sws.serverLang)
     }
 }

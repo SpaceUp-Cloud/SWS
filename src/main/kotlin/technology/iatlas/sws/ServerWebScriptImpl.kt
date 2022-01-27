@@ -18,36 +18,38 @@ import technology.iatlas.sws.objects.Endpoint
 import technology.iatlas.sws.ruleengine.Parser
 import technology.iatlas.sws.ruleengine.rules.EndpointRule
 import technology.iatlas.sws.ruleengine.rules.HosterRule
+import technology.iatlas.sws.ruleengine.rules.LangRule
 import java.io.File
 
 /**
  * ServerWebScript is the most important object which presents itself
  */
-class ServerWebScriptImpl(var file: File,
-                                   override var _metaComments: List<String>,
-                                   override var hoster: String,
-                                   override var swaggerDoc: String,
-                                   override var serverLang: String,
-                                   override var clientLang: String,
-                                   override var serverEndpoint: Endpoint,
-                                   override var serverScript: String,
-                                   override var serverResponseObjects: List<Any>,
-                                   override var clientResponse: String
+internal class ServerWebScriptImpl(
+    var file: File,
+    override var _metaComments: List<String>,
+    override var hoster: String,
+    override var swaggerDoc: String,
+    override var serverLang: String,
+    override var clientLang: String,
+    override var serverEndpoint: Endpoint,
+    override var serverScript: String,
+    override var serverResponseObjects: List<Any>,
+    override var clientResponse: String
 ) : ServerWebScript, Logging {
     private lateinit var sws: ServerWebScript
 
     override fun parse() {
         logger.info("Called parser")
-        val parser = Parser(this, file)
-        parser
+        Parser(this, file)
             .addRule(HosterRule())
             .addRule(EndpointRule())
-        parser.parse()
+            .addRule(LangRule())
+            .parse()
 
         sws = this
     }
 
-    companion object { }
+    companion object {}
 }
 
 internal fun ServerWebScriptImpl.Companion.createAndParse(file: File): ServerWebScript {
@@ -71,6 +73,9 @@ internal fun ServerWebScriptImpl.Companion.create(file: File): ServerWebScript {
     )
 }
 
+/**
+ * That's the main entry point
+ */
 object SWSCreator {
     fun createAndParse(file: File): ServerWebScript {
         return ServerWebScriptImpl.createAndParse(file)
