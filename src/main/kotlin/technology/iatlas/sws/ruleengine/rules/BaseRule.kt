@@ -18,10 +18,19 @@ import technology.iatlas.sws.ServerWebScript
 import java.io.File
 
 abstract class BaseRule(private val rule: String): Rule, Logging {
+    protected val baseFile: File = File.createTempFile("base-",".sws")
     /**
      * It's important to call super.proceed(file) to do the base parsing
      */
-    override fun proceed(sws: ServerWebScript, file: File) {
+    override fun process(sws: ServerWebScript, rawFile: File) {
         logger.info("Process rule $rule")
+        logger.debug("Clear SWS file.")
+
+        rawFile.forEachLine {
+            // Ignore comments and blank lines
+            if(!it.contains("#") && it.isNotBlank()) {
+                baseFile.appendText("$it\n")
+            }
+        }
     }
 }

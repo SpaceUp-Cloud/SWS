@@ -18,11 +18,11 @@ import technology.iatlas.sws.objects.Endpoint
 import java.io.File
 
 class EndpointRule : BaseRule("SERVER_ENDPOINT") {
-    override fun proceed(sws: ServerWebScript, file: File) {
-        super.proceed(sws, file)
+    override fun process(sws: ServerWebScript, rawfile: File) {
+        super.process(sws, rawfile)
         val regexRule = Regex("(endpoint|ENDPOINT|Endpoint)")
 
-        file.forEachLine {
+        this.baseFile.forEachLine {
             if(it.contains(regexRule)) {
                 val splitted = it.split(":")[1].trim().split(" ")
                 sws.serverEndpoint = Endpoint(splitted[0], splitted[1])

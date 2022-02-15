@@ -17,11 +17,11 @@ import technology.iatlas.sws.ServerWebScript
 import java.io.File
 
 class HosterRule : BaseRule("HOSTER") {
-    override fun proceed(sws: ServerWebScript, file: File) {
-        super.proceed(sws, file)
+    override fun process(sws: ServerWebScript, rawfile: File) {
+        super.process(sws, rawfile)
         val regexRule = Regex("(hoster|HOSTER|Hoster)")
 
-        file.forEachLine {
+        this.baseFile.forEachLine {
             if(it.contains(regexRule)) {
                 sws.hoster = it.split(":")[1].trim()
                 logger.debug("HOSTER: ${sws.hoster}")

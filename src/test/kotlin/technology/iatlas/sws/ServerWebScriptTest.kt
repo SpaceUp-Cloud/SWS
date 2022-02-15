@@ -58,7 +58,7 @@ internal class ServerWebScriptTest: Logging {
     @Test
     @Order(5)
     fun testServerLang() {
-        val sws = SWSCreator.createAndParse(File(swsBaseFile))
+        val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile))
         assertEquals("/usr/bin/env bash", sws.serverLang)
     }
 }
