@@ -15,19 +15,21 @@ package technology.iatlas.sws.ruleengine.rules
 
 import technology.iatlas.sws.ServerWebScript
 import technology.iatlas.sws.objects.Endpoint
+import technology.iatlas.sws.objects.ParserException
 import java.io.File
 
-class EndpointRule : BaseRule("SERVER_ENDPOINT") {
-    override fun process(sws: ServerWebScript, rawfile: File) {
-        super.process(sws, rawfile)
-        val regexRule = Regex("(endpoint|ENDPOINT|Endpoint)")
+class EndpointRule: BaseRule("SERVER_ENDPOINT") {
 
-        this.baseFile.forEachLine {
-            if(it.contains(regexRule)) {
-                val splitted = it.split(":")[1].trim().split(" ")
-                sws.serverEndpoint = Endpoint(splitted[0], splitted[1])
-                logger.debug("ENDPOINT: ${sws.serverEndpoint}")
-            }
+    override fun process(sws: ServerWebScript, swsFile: File): ServerWebScript {
+        super.process(sws, swsFile)
+        val regexRule = Regex("ENDPOINT:(.+)?([A-Z]*)(.*)?(.*)")
+        val result = regexRule.find(swsFile.readText())?.groupValues
+        if (result != null) {
+            val splittedEndpoint = result[1].trimStart().split(" ")
+            sws.serverEndpoint = Endpoint(splittedEndpoint[0], splittedEndpoint[1])
+        } else {
+            throw ParserException("Could not parse SERVER_ENDPOINT!")
         }
+        return sws
     }
 }

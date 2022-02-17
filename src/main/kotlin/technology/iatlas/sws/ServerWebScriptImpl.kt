@@ -16,9 +16,7 @@ package technology.iatlas.sws
 import org.apache.logging.log4j.kotlin.Logging
 import technology.iatlas.sws.objects.Endpoint
 import technology.iatlas.sws.ruleengine.Parser
-import technology.iatlas.sws.ruleengine.rules.EndpointRule
-import technology.iatlas.sws.ruleengine.rules.HosterRule
-import technology.iatlas.sws.ruleengine.rules.LangRule
+import technology.iatlas.sws.ruleengine.rules.*
 import java.io.File
 
 /**
@@ -26,7 +24,6 @@ import java.io.File
  */
 internal class ServerWebScriptImpl(
     var file: File,
-    override var _metaComments: List<String>,
     override var hoster: String,
     override var swaggerDoc: String,
     override var serverLang: String,
@@ -41,6 +38,7 @@ internal class ServerWebScriptImpl(
     override fun parse() {
         logger.info("Called parser")
         Parser(this, file)
+            .addRule(SwaggerRule())
             .addRule(HosterRule())
             .addRule(EndpointRule())
             .addRule(LangRule())
@@ -49,13 +47,29 @@ internal class ServerWebScriptImpl(
         sws = this
     }
 
+    fun parse(rules: List<Rule>) {
+        logger.info("Called parser")
+        val parser = Parser(this, file)
+
+        rules.map {
+            parser.addRule(it)
+        }.apply { parser.parse() }
+
+        sws = this
+    }
+
+    override fun toString(): String {
+        return "ServerWebScriptImpl(hoster='$hoster', swaggerDoc='$swaggerDoc', serverLang='$serverLang', clientLang='$clientLang', serverEndpoint=$serverEndpoint, serverScript='$serverScript', serverResponseObjects=$serverResponseObjects, clientResponse='$clientResponse')"
+    }
+
     companion object {}
+
+
 }
 
 internal fun ServerWebScriptImpl.Companion.createAndParse(file: File): ServerWebScript {
     val sws = ServerWebScriptImpl(
         file,
-        arrayListOf(),
         "Uberspace", "", "", "",
         Endpoint("", ""), "", arrayListOf(), ""
     )
@@ -64,10 +78,20 @@ internal fun ServerWebScriptImpl.Companion.createAndParse(file: File): ServerWeb
     return sws
 }
 
+internal fun ServerWebScriptImpl.Companion.createAndParse(file: File, rules: List<Rule>): ServerWebScript {
+    val sws = ServerWebScriptImpl(
+        file,
+        "Uberspace", "", "", "",
+        Endpoint("", ""), "", arrayListOf(), ""
+    )
+
+    sws.parse(rules)
+    return sws
+}
+
 internal fun ServerWebScriptImpl.Companion.create(file: File): ServerWebScript {
     return ServerWebScriptImpl(
         file,
-        arrayListOf(),
         "Uberspace", "", "", "",
         Endpoint("", ""), "", arrayListOf(), ""
     )
@@ -79,6 +103,10 @@ internal fun ServerWebScriptImpl.Companion.create(file: File): ServerWebScript {
 object SWSCreator {
     fun createAndParse(file: File): ServerWebScript {
         return ServerWebScriptImpl.createAndParse(file)
+    }
+
+    fun createAndParse(file: File, rules: List<Rule>): ServerWebScript {
+        return ServerWebScriptImpl.createAndParse(file, rules)
     }
 
     fun create(file: File): ServerWebScript {

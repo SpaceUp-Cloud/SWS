@@ -16,12 +16,6 @@ package technology.iatlas.sws
 import technology.iatlas.sws.objects.Endpoint
 
 sealed interface ServerWebScript {
-
-    /**
-     * Presents comments in the script
-     */
-    var _metaComments: List<String>
-
     /**
      * Defines where we should run.
      *

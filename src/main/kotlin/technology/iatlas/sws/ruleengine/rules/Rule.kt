@@ -17,5 +17,5 @@ import technology.iatlas.sws.ServerWebScript
 import java.io.File
 
 interface Rule {
-    fun process(sws: ServerWebScript, rawFile: File)
+    fun process(sws: ServerWebScript, swsFile: File): ServerWebScript
 }

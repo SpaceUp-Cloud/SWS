@@ -14,8 +14,11 @@
 package technology.iatlas.sws
 
 import org.apache.logging.log4j.kotlin.Logging
-import org.junit.jupiter.api.Order
 import org.junit.jupiter.api.Test
+import technology.iatlas.sws.ruleengine.rules.EndpointRule
+import technology.iatlas.sws.ruleengine.rules.HosterRule
+import technology.iatlas.sws.ruleengine.rules.LangRule
+import technology.iatlas.sws.ruleengine.rules.SwaggerRule
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertNotNull
@@ -24,7 +27,6 @@ internal class ServerWebScriptTest: Logging {
     private val swsBaseFile = ServerWebScript::class.java.getResource("/testdata/basic.sws").file
 
     @Test
-    @Order(1)
     fun createServerWebScriptObject() {
         logger.info("Create only the object")
         val sws: ServerWebScript = SWSCreator.create(File(swsBaseFile))
@@ -32,33 +34,48 @@ internal class ServerWebScriptTest: Logging {
     }
 
     @Test
-    @Order(2)
-    fun createAndParseHoster() {
+    fun createAndParseWebScriptObject() {
         logger.info("Create and parse the object")
         val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile))
         assertNotNull(sws, "ServerWebScript is not null")
     }
 
     @Test
-    @Order(3)
     fun testHoster() {
         // 'create' works as it is default, else it would fail
-        val sws = SWSCreator.create(File(swsBaseFile))
+        val sws = SWSCreator.createAndParse(File(swsBaseFile), listOf(HosterRule()))
         assertEquals("Uberspace", sws.hoster)
     }
 
     @Test
-    @Order(4)
     fun testEndpoint() {
-        val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile))
+        val sws: ServerWebScript =
+            SWSCreator.createAndParse(File(swsBaseFile), listOf(EndpointRule()))
         assertEquals("GET", sws.serverEndpoint.httpAction)
         assertEquals("/test/basic", sws.serverEndpoint.url)
     }
 
     @Test
-    @Order(5)
     fun testServerLang() {
-        val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile))
+        val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile), listOf(LangRule()))
         assertEquals("/usr/bin/env bash", sws.serverLang)
+    }
+
+    @Test
+    fun testSwaggerDoc() {
+        val docString = "Just to lazy to write something useful here."
+        val sws: ServerWebScript =
+            SWSCreator.createAndParse(File(swsBaseFile), listOf(SwaggerRule()))
+        assertEquals(docString, sws.swaggerDoc)
+    }
+
+    @Test
+    fun testAllProps() {
+        val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile))
+        logger.debug(sws.toString())
+        assertNotNull(sws.hoster)
+        assertNotNull(sws.serverEndpoint)
+        assertNotNull(sws.serverScript)
+        assertNotNull(sws.swaggerDoc)
     }
 }

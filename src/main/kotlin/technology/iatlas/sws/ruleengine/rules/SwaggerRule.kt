@@ -4,18 +4,17 @@ import technology.iatlas.sws.ServerWebScript
 import technology.iatlas.sws.objects.ParserException
 import java.io.File
 
-class LangRule : BaseRule("SERVER_LANG") {
+class SwaggerRule : BaseRule("SWAGGER_RULE") {
 
     override fun process(sws: ServerWebScript, swsFile: File): ServerWebScript {
         super.process(sws, swsFile)
-        val regexRule = Regex("SERVER_LANG:(.+)?(.*)")
+        val regexRule = Regex("(SWAGGER_DOC:).+(\"{3})((.|\\s)*?)(?=\"{3})")
 
         val result = regexRule.find(swsFile.readText())?.groupValues
-        if(result != null) {
-            sws.serverLang = result[1].trimStart()
-            logger.debug("SERVER_LANG: ${sws.serverLang}")
+        if (result != null) {
+            sws.swaggerDoc = result[3].trim()
         } else {
-            throw ParserException("Could not parse SERVER_LANG!")
+            throw ParserException("Could not parse SWAGGER_DOC!")
         }
         return sws
     }

@@ -14,18 +14,22 @@
 package technology.iatlas.sws.ruleengine.rules
 
 import technology.iatlas.sws.ServerWebScript
+import technology.iatlas.sws.objects.ParserException
 import java.io.File
 
 class HosterRule : BaseRule("HOSTER") {
-    override fun process(sws: ServerWebScript, rawfile: File) {
-        super.process(sws, rawfile)
-        val regexRule = Regex("(hoster|HOSTER|Hoster)")
 
-        this.baseFile.forEachLine {
-            if(it.contains(regexRule)) {
-                sws.hoster = it.split(":")[1].trim()
-                logger.debug("HOSTER: ${sws.hoster}")
-            }
+    override fun process(sws: ServerWebScript, swsFile: File): ServerWebScript {
+        super.process(sws, swsFile)
+        val regexRule = Regex("HOSTER:(.+)?(.*)")
+
+        val result = regexRule.find(swsFile.readText())?.groupValues
+        if(result != null) {
+            sws.hoster = result[1].trimStart()
+            logger.debug("HOSTER: ${sws.hoster}")
+        } else {
+            throw ParserException("Could not parse HOSTER!")
         }
+        return sws
     }
 }
