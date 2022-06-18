@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2021 thraax.session@gino-atlas.de.
+ * Copyright(c) 2022 thraax.session@gino-atlas.de.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -67,6 +67,18 @@ internal class ServerWebScriptTest: Logging {
         val sws: ServerWebScript =
             SWSCreator.createAndParse(File(swsBaseFile), listOf(SwaggerRule()))
         assertEquals(docString, sws.swaggerDoc)
+    }
+
+    @Test
+    fun testEndpointParameters() {
+        val sws = SWSCreator.createAndParse(File(swsBaseFile),
+            listOf(EndpointRule()))
+
+        val params = sws.serverEndpoint.getUrlParams()
+
+        assertEquals(true, params.containsKey("param1"))
+        assertEquals("test1", params["param1"])
+        assertEquals(2, sws.serverEndpoint.getUrlParams().size)
     }
 
     @Test

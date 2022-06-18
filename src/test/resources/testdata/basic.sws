@@ -15,7 +15,7 @@ Just to lazy to write something useful here.
 HOSTER: Uberspace
 
 # That's a basic endpoint which needs to be register in your web server application
-SERVER_ENDPOINT: GET /test/basic
+SERVER_ENDPOINT: GET /test/basic?param1=test1&param2=test2
 
 # This is the skeleton script which will be used for the generated one.
 SERVER_LANG: /usr/bin/env bash
