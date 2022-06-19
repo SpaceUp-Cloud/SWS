@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2021 thraax.session@gino-atlas.de.
+ * Copyright(c) 2022 thraax.session@gino-atlas.de.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -12,7 +12,7 @@
  */
 
 plugins {
-    kotlin("jvm") version "1.5.30"
+    kotlin("jvm") version "1.7.0"
     id("org.sonarqube") version "3.3"
     jacoco
 }
@@ -25,9 +25,9 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.5.21")
-    implementation("org.apache.logging.log4j:log4j-core:2.17.0")
-    implementation("org.apache.logging.log4j:log4j-api:2.17.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.0")
+    implementation("org.apache.logging.log4j:log4j-core:2.17.2")
+    implementation("org.apache.logging.log4j:log4j-api:2.17.2")
     implementation("org.apache.logging.log4j:log4j-api-kotlin:1.1.0")
     implementation("org.junit.jupiter:junit-jupiter:5.8.2")
     testImplementation(kotlin("test"))

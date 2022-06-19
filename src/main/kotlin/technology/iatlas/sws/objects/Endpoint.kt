@@ -13,10 +13,42 @@
 
 package technology.iatlas.sws.objects
 
-data class Endpoint(val httpAction: String, val url: String) {
-    fun getUrlParams(): Map<String, Any> {
+import org.apache.logging.log4j.kotlin.Logging
+
+data class Endpoint(val httpAction: String, val url: String) : Logging {
+    private val urlParams: MutableMap<String, Any> = mutableMapOf()
+
+    fun getUrlParams(): MutableMap<String, Any> {
+        return urlParams
+    }
+
+    fun setUrlParams(key: String, value: Any?) {
+        val templateParams = getTemplateUrlParams()
+
+        // Has key and value
+        if(templateParams.containsKey(key) && value != null) {
+            urlParams[key] = value
+            // Has key but no value but default value
+        } else if(templateParams.containsKey(key) && value == null&& templateParams[key] != null) {
+            urlParams[key] = templateParams[key] as Any
+            // Has key but no possible value
+        } else if(templateParams.containsKey(key) && value == null && templateParams[key] == null){
+            logger.warn("Key '$key' was found but no value to map. " +
+                    "Script variable '$key' won't be generated.")
+        } else if(!templateParams.containsKey(key)) {
+            logger.warn("Key '$key' not found. Won't map key '$key'.")
+        }
+    }
+
+    fun setUrlParams(params: MutableMap<String, Any?>) {
+        if(params.isNotEmpty()) {
+            params.forEach { (t, u) -> setUrlParams(t, u)  }
+        }
+    }
+
+    private fun getTemplateUrlParams(): Map<String, Any> {
         val params = mutableMapOf<String, Any>()
-        val result = Regex("([^&?]+?)=([^&?]+)", RegexOption.MULTILINE).findAll(url)
+        val result = Regex("([^&?]+?)=([^&?]+)?", RegexOption.MULTILINE).findAll(url)
 
         result.iterator().forEach {
             params[it.groupValues[1]] = it.groupValues[2]

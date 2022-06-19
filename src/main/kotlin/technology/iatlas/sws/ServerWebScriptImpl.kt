@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2021 thraax.session@gino-atlas.de.
+ * Copyright(c) 2022 thraax.session@gino-atlas.de.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -31,7 +31,8 @@ internal class ServerWebScriptImpl(
     override var serverEndpoint: Endpoint,
     override var serverScript: String,
     override var serverResponseObjects: List<Any>,
-    override var clientResponse: String
+    override var clientResponse: String,
+    override var urlParams: MutableMap<String, Any?>
 ) : ServerWebScript, Logging {
     private lateinit var sws: ServerWebScript
 
@@ -40,8 +41,9 @@ internal class ServerWebScriptImpl(
         Parser(this, file)
             .addRule(SwaggerRule())
             .addRule(HosterRule())
-            .addRule(EndpointRule())
+            .addRule(EndpointRule(urlParams))
             .addRule(LangRule())
+            .addRule(ServerScriptRule())
             .parse()
 
         sws = this
@@ -67,33 +69,42 @@ internal class ServerWebScriptImpl(
 
 }
 
-internal fun ServerWebScriptImpl.Companion.createAndParse(file: File): ServerWebScript {
+internal fun ServerWebScriptImpl.Companion.createAndParse(
+    file: File, urlParams: MutableMap<String, Any?> = mutableMapOf()): ServerWebScript {
+
+    val endpoint = Endpoint("", "")
     val sws = ServerWebScriptImpl(
         file,
         "Uberspace", "", "", "",
-        Endpoint("", ""), "", arrayListOf(), ""
+        endpoint, "", arrayListOf(), "", urlParams
     )
 
     sws.parse()
     return sws
 }
 
-internal fun ServerWebScriptImpl.Companion.createAndParse(file: File, rules: List<Rule>): ServerWebScript {
+internal fun ServerWebScriptImpl.Companion.createAndParse(
+    file: File, rules: List<Rule>, urlParams: MutableMap<String, Any?> = mutableMapOf()): ServerWebScript {
+
+    val endpoint = Endpoint("", "")
     val sws = ServerWebScriptImpl(
         file,
         "Uberspace", "", "", "",
-        Endpoint("", ""), "", arrayListOf(), ""
+        endpoint, "", arrayListOf(), "", urlParams
     )
 
     sws.parse(rules)
     return sws
 }
 
-internal fun ServerWebScriptImpl.Companion.create(file: File): ServerWebScript {
+internal fun ServerWebScriptImpl.Companion.create(
+    file: File, urlParams: MutableMap<String, Any?> = mutableMapOf()): ServerWebScript {
+
+    val endpoint = Endpoint("", "")
     return ServerWebScriptImpl(
         file,
         "Uberspace", "", "", "",
-        Endpoint("", ""), "", arrayListOf(), ""
+        endpoint, "", arrayListOf(), "", urlParams
     )
 }
 
@@ -101,15 +112,15 @@ internal fun ServerWebScriptImpl.Companion.create(file: File): ServerWebScript {
  * That's the main entry point
  */
 object SWSCreator {
-    fun createAndParse(file: File): ServerWebScript {
-        return ServerWebScriptImpl.createAndParse(file)
+    fun createAndParse(file: File, urlParams: MutableMap<String, Any?> = mutableMapOf()): ServerWebScript {
+        return ServerWebScriptImpl.createAndParse(file, urlParams)
     }
 
-    fun createAndParse(file: File, rules: List<Rule>): ServerWebScript {
-        return ServerWebScriptImpl.createAndParse(file, rules)
+    fun createAndParse(file: File, rules: List<Rule>, urlParams: MutableMap<String, Any?> = mutableMapOf()): ServerWebScript {
+        return ServerWebScriptImpl.createAndParse(file, rules, urlParams)
     }
 
-    fun create(file: File): ServerWebScript {
-        return ServerWebScriptImpl.create(file)
+    fun create(file: File, urlParams: MutableMap<String, Any?> = mutableMapOf()): ServerWebScript {
+        return ServerWebScriptImpl.create(file, urlParams)
     }
 }

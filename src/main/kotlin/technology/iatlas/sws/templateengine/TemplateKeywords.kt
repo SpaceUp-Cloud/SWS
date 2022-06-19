@@ -11,20 +11,12 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package technology.iatlas.sws.ruleengine.rules
+package technology.iatlas.sws.templateengine
 
-import org.apache.logging.log4j.kotlin.Logging
-import technology.iatlas.sws.ServerWebScript
-import java.io.File
-
-abstract class BaseRule(protected val rule: String): Rule, Logging {
-    /**
-     * It's important to call super.proceed(file) to do the base parsing.
-     * After doing the pre-parse stuff, you can use 'baseFile' for further processing.
-     */
-    override fun process(sws: ServerWebScript, swsFile: File): ServerWebScript {
-        logger.info("Process rule $rule")
-        return sws
-    }
-
+enum class TemplateKeywords {
+    DATE,
+    HTTP_ACTION,
+    ENDPOINT,
+    PARAMS,
+    SERVER_SCRIPT
 }

@@ -11,20 +11,28 @@
  * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
  */
 
-package technology.iatlas.sws.ruleengine.rules
+package technology.iatlas.sws.templateengine
 
-import org.apache.logging.log4j.kotlin.Logging
 import technology.iatlas.sws.ServerWebScript
-import java.io.File
+import technology.iatlas.sws.objects.TemplateGenerateException
 
-abstract class BaseRule(protected val rule: String): Rule, Logging {
-    /**
-     * It's important to call super.proceed(file) to do the base parsing.
-     * After doing the pre-parse stuff, you can use 'baseFile' for further processing.
-     */
-    override fun process(sws: ServerWebScript, swsFile: File): ServerWebScript {
-        logger.info("Process rule $rule")
-        return sws
+class Template {
+    companion object {
+        fun generate(sws: ServerWebScript, serverScriptTemplate: String, params: Map<String, Any>): ServerWebScript {
+            val serverLang = sws.serverLang.uppercase()
+            when {
+                serverLang.contains(ServerLang.BASH.name) -> {
+                    return Bash().generate(sws, serverScriptTemplate, params)
+                }
+                else -> throw TemplateGenerateException("Unknown server script language: ${sws.serverLang}")
+            }
+        }
     }
+}
 
+enum class ServerLang {
+    BASH,
+    // Planned to implement
+    PYTHON2,
+    PYTHON3,
 }

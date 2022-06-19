@@ -21,6 +21,7 @@ import technology.iatlas.sws.ruleengine.rules.LangRule
 import technology.iatlas.sws.ruleengine.rules.SwaggerRule
 import java.io.File
 import kotlin.test.assertEquals
+import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 
 internal class ServerWebScriptTest: Logging {
@@ -50,15 +51,15 @@ internal class ServerWebScriptTest: Logging {
     @Test
     fun testEndpoint() {
         val sws: ServerWebScript =
-            SWSCreator.createAndParse(File(swsBaseFile), listOf(EndpointRule()))
+            SWSCreator.createAndParse(File(swsBaseFile), listOf(EndpointRule(mutableMapOf())))
         assertEquals("GET", sws.serverEndpoint.httpAction)
-        assertEquals("/test/basic", sws.serverEndpoint.url)
+        assertEquals("/test/basic?param1=defaultValue&param2=", sws.serverEndpoint.url)
     }
 
     @Test
     fun testServerLang() {
         val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile), listOf(LangRule()))
-        assertEquals("/usr/bin/env bash", sws.serverLang)
+        assertEquals("#!/usr/bin/env bash", sws.serverLang)
     }
 
     @Test
@@ -71,20 +72,39 @@ internal class ServerWebScriptTest: Logging {
 
     @Test
     fun testEndpointParameters() {
+        val urlParams = mutableMapOf<String, Any?>()
+        urlParams["param1"] = null
+        urlParams["param2"] = "test2"
+
         val sws = SWSCreator.createAndParse(File(swsBaseFile),
-            listOf(EndpointRule()))
+            listOf(EndpointRule(urlParams)))
 
         val params = sws.serverEndpoint.getUrlParams()
 
         assertEquals(true, params.containsKey("param1"))
-        assertEquals("test1", params["param1"])
+        assertEquals("defaultValue", params["param1"])
+        assertEquals("test2", params["param2"])
         assertEquals(2, sws.serverEndpoint.getUrlParams().size)
+    }
+
+    @Test
+    fun testServerScriptRule() {
+        val urlParams = mutableMapOf<String, Any?>()
+        urlParams["param1"] = null
+        urlParams["param2"] = "myValue"
+
+        val sws = SWSCreator.createAndParse(File(swsBaseFile), urlParams)
+
+        assertNotNull(sws.serverScript)
+        assertNotEquals("", sws.serverScript)
+        // From the bash template
+        assertEquals("#!/usr/bin/env bash", sws.serverLang)
+        assertEquals("#!/usr/bin/env bash", sws.serverScript.split("\n")[0])
     }
 
     @Test
     fun testAllProps() {
         val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile))
-        logger.debug(sws.toString())
         assertNotNull(sws.hoster)
         assertNotNull(sws.serverEndpoint)
         assertNotNull(sws.serverScript)
