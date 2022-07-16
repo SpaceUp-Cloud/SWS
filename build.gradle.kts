@@ -14,8 +14,12 @@
 plugins {
     kotlin("jvm") version "1.7.0"
     id("org.sonarqube") version "3.3"
+    id("maven-publish")
+    application
     jacoco
 }
+
+apply<MavenPublishPlugin>()
 
 group = "technology.iatlas.sws"
 version = "1.0-SNAPSHOT"
@@ -50,10 +54,37 @@ tasks.jacocoTestReport {
     dependsOn(tasks.test) // tests are required to run before generating the report
 }
 
+tasks.withType<PublishToMavenRepository>() {
+    dependsOn("assemble")
+}
+
+
+publishing {
+    publications {
+        create<MavenPublication>("maven") {
+            group = project.group
+            artifactId = artifactId
+            version = version
+            artifact("$buildDir/libs/$artifactId-$version.jar")
+        }
+    }
+
+    repositories {
+        maven {
+            name = "Maven"
+            url = uri("https://artifactory.iatlas.dev/releases")
+            credentials {
+                username = project.properties["nexusUsername"].toString()
+                password = project.properties["nexusPassword"].toString()
+            }
+        }
+    }
+}
+
 sonarqube {
     properties {
         property("sonar.host.url", "https://sonar.iatlas.dev")
-        property("sonar.login", "14b8614de179be8155540e5ff81b3a715874e1b1")
+        property("sonar.login", project.properties["sonarToken"].toString())
         property("sonar.projectKey", "SpaceUp-SWS")
         property("sonar.sourceEncoding", "UTF-8")
         property("sonar.java.coveragePlugin", "jacoco")
