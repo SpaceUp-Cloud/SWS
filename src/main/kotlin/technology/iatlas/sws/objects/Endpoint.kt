@@ -13,9 +13,10 @@
 
 package technology.iatlas.sws.objects
 
-import org.apache.logging.log4j.kotlin.Logging
+import mu.KotlinLogging
 
-data class Endpoint(val httpAction: String, val url: String) : Logging {
+data class Endpoint(val httpAction: String, val url: String) {
+    private val logger = KotlinLogging.logger {}
     private val urlParams: MutableMap<String, Any> = mutableMapOf()
 
     fun getUrlParams(): MutableMap<String, Any> {

@@ -13,7 +13,7 @@
 
 package technology.iatlas.sws
 
-import org.apache.logging.log4j.kotlin.Logging
+import mu.KotlinLogging
 import technology.iatlas.sws.objects.Endpoint
 import technology.iatlas.sws.ruleengine.Parser
 import technology.iatlas.sws.ruleengine.rules.*
@@ -33,8 +33,9 @@ internal class ServerWebScriptImpl(
     override var serverResponseObjects: List<Any>,
     override var clientResponse: String,
     override var urlParams: MutableMap<String, Any?>
-) : ServerWebScript, Logging {
+) : ServerWebScript {
     private lateinit var sws: ServerWebScript
+    private val logger = KotlinLogging.logger {}
 
     override fun parse() {
         logger.info("Called parser")

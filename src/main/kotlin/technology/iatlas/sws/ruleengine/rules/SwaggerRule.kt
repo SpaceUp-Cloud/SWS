@@ -13,11 +13,10 @@
 
 package technology.iatlas.sws.ruleengine.rules
 
-import org.apache.logging.log4j.kotlin.Logging
 import technology.iatlas.sws.ServerWebScript
 import java.io.File
 
-class SwaggerRule : BaseRule("SWAGGER_DOC"), Logging {
+class SwaggerRule : BaseRule("SWAGGER_DOC") {
 
     override fun process(sws: ServerWebScript, swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript {
         return super.process(sws, swsFile) {
@@ -28,7 +27,7 @@ class SwaggerRule : BaseRule("SWAGGER_DOC"), Logging {
                 sws.swaggerDoc = result[3].trim()
             } else {
                 //throw ParserException("Could not parse ${this.rule}!")
-                logger.warn("Ignore ${this.rule} as it is not defined.")
+                this.logger.warn("Ignore ${this.rule} as it is not defined.")
             }
             sws
         }

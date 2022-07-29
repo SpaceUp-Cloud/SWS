@@ -13,7 +13,7 @@
 
 package technology.iatlas.sws
 
-import org.apache.logging.log4j.kotlin.Logging
+import mu.KotlinLogging
 import org.junit.jupiter.api.Test
 import technology.iatlas.sws.ruleengine.rules.EndpointRule
 import technology.iatlas.sws.ruleengine.rules.HosterRule
@@ -24,7 +24,8 @@ import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
 
-internal class ServerWebScriptTest: Logging {
+internal class ServerWebScriptTest {
+    private val logger = KotlinLogging.logger {}
     private val swsBaseFile = ServerWebScript::class.java.getResource("/testdata/basic.sws").file
 
     @Test

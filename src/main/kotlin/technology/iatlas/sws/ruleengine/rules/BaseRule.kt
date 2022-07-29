@@ -13,11 +13,13 @@
 
 package technology.iatlas.sws.ruleengine.rules
 
-import org.apache.logging.log4j.kotlin.Logging
+import mu.KotlinLogging
 import technology.iatlas.sws.ServerWebScript
 import java.io.File
 
-abstract class BaseRule(protected val rule: String): Rule, Logging {
+abstract class BaseRule(protected val rule: String): Rule {
+    protected val logger = KotlinLogging.logger {}
+
     /**
      * It's important to call super.proceed(file) to do the base parsing.
      * After doing the pre-parse stuff, you can use 'baseFile' for further processing.
