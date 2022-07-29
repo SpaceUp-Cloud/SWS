@@ -24,6 +24,7 @@ SERVER_LANG: #!/usr/bin/env bash
 SERVER_SCRIPT: """
 # $urlParamName will be identical to the parameters from the REST endpoint
 echo param1 # value is "defaultValue"
+echo param2 # will be empty
 """
 
 # This describes how the response looks like for the client

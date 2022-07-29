@@ -32,13 +32,20 @@ abstract class BaseRule(protected val rule: String): Rule {
     private fun processRule(swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript {
         // Clear all comments
         logger.debug("Clear comments")
-        val commentRegex = Regex("(?!#!)(#.*\n)", RegexOption.UNIX_LINES)
-        val processedContent = swsFile.readText().replace(commentRegex, "").trim()
-        //processedContent = processedContent.replace(Regex("^\\n$"), "")
+        val commentRegex = Regex("(?!#!)(#.*)", RegexOption.UNIX_LINES)
+        var processedContent = swsFile.readText().replace(commentRegex, "").trim()
+        processedContent = processedContent.replace(Regex("(?!\\w*)( *)"), "")
+
+        var cleanedFile: String = ""
+        processedContent.lines().forEach {
+            if(it.isNotEmpty() || it.isNotBlank() || !it.contains("")) {
+                cleanedFile += it + "\n"
+            }
+        }
 
         // Done - write result
         val processedFile = File(rule)
-        processedFile.writeText(processedContent)
+        processedFile.writeText(cleanedFile)
         val sws = parse(processedFile)
         processedFile.delete()
 
