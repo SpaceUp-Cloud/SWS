@@ -17,7 +17,7 @@ import technology.iatlas.sws.ServerWebScript
 import java.io.File
 
 abstract class BaseEngine(private val template: String): TemplateInf {
-    protected val templateFile: File = File(BaseEngine::class.java.getResource("/scripttemplates/${this.template}").file)
+    protected val templateFile: File = File(javaClass.getResource("/scripttemplates/${this.template}").file)
     override fun generate(sws: ServerWebScript, userServerScript: String, params: Map<String, Any>): ServerWebScript {
         // TODO Here we can implement some security features
         return sws

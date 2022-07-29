@@ -15,6 +15,7 @@ plugins {
     kotlin("jvm") version "1.7.0"
     id("org.sonarqube") version "3.3"
     id("maven-publish")
+    id("java")
     application
     jacoco
 }
@@ -58,14 +59,18 @@ tasks.withType<PublishToMavenRepository>() {
     dependsOn("assemble")
 }
 
+java {
+    withSourcesJar()
+}
 
 publishing {
     publications {
-        create<MavenPublication>("maven") {
+        create<MavenPublication>("jar") {
             group = project.group
             artifactId = artifactId
             version = version
-            artifact("$buildDir/libs/$artifactId-$version.jar")
+
+            from(components["java"])
         }
     }
 
