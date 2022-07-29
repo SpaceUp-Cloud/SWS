@@ -27,7 +27,7 @@ class Parser(val sws: ServerWebScript, var file: File) {
 
     fun parse() {
         rules.forEach {
-            it.process(sws, file)
+            it.process(sws, file) { _: File -> this.sws }
         }
     }
 }

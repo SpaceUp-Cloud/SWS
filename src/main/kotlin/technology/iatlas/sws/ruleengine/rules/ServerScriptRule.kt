@@ -20,17 +20,19 @@ import java.io.File
 
 class ServerScriptRule : BaseRule("SERVER_SCRIPT") {
 
-    override fun process(sws: ServerWebScript, swsFile: File): ServerWebScript {
-        super.process(sws, swsFile)
-        val urlParams = sws.serverEndpoint.getUrlParams()
-        val regexRule = Regex("(${this.rule}:).+(\"{3})((.|\\s)*?)(?=\"{3})")
+    override fun process(sws: ServerWebScript, swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript {
+        return super.process(sws, swsFile) {
+            val urlParams = sws.serverEndpoint.getUrlParams()
+            val regexRule = Regex("(${this.rule}:).+(\"{3})((.|\\s)*?)(?=\"{3})")
 
-        val result = regexRule.find(swsFile.readText())?.groupValues
-        if(result != null) {
-            val sst = result[3].trim()
-            return Template.generate(sws, sst, urlParams)
-        } else {
-            throw ParserException("Could not parse ${this.rule}!")
+            val result = regexRule.find(it.readText())?.groupValues
+            if(result != null) {
+                val sst = result[3].trim()
+                Template.generate(sws, sst, urlParams)
+            } else {
+                throw ParserException("Could not parse ${this.rule}!")
+            }
         }
+
     }
 }

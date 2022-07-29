@@ -19,17 +19,18 @@ import java.io.File
 
 class HosterRule : BaseRule("HOSTER") {
 
-    override fun process(sws: ServerWebScript, swsFile: File): ServerWebScript {
-        super.process(sws, swsFile)
-        val regexRule = Regex("HOSTER:(.+)?(.*)")
+    override fun process(sws: ServerWebScript, swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript {
+        return super.process(sws, swsFile) {
+            val regexRule = Regex("${this.rule}:(.+)?(.*)")
 
-        val result = regexRule.find(swsFile.readText())?.groupValues
-        if(result != null) {
-            sws.hoster = result[1].trimStart()
-            logger.debug("HOSTER: ${sws.hoster}")
-        } else {
-            throw ParserException("Could not parse HOSTER!")
+            val result = regexRule.find(it.readText())?.groupValues
+            if(result != null) {
+                sws.hoster = result[1].trimStart()
+                logger.debug("HOSTER: ${sws.hoster}")
+            } else {
+                throw ParserException("Could not parse HOSTER!")
+            }
+            sws
         }
-        return sws
     }
 }

@@ -22,8 +22,24 @@ abstract class BaseRule(protected val rule: String): Rule, Logging {
      * It's important to call super.proceed(file) to do the base parsing.
      * After doing the pre-parse stuff, you can use 'baseFile' for further processing.
      */
-    override fun process(sws: ServerWebScript, swsFile: File): ServerWebScript {
+    override fun process(sws: ServerWebScript, swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript {
         logger.info("Process rule $rule")
+        return processRule(swsFile, parse)
+    }
+
+    private fun processRule(swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript {
+        // Clear all comments
+        logger.debug("Clear comments")
+        val commentRegex = Regex("(?!#!)(#.*\n)", RegexOption.UNIX_LINES)
+        val processedContent = swsFile.readText().replace(commentRegex, "").trim()
+        //processedContent = processedContent.replace(Regex("^\\n$"), "")
+
+        // Done - write result
+        val processedFile = File(rule)
+        processedFile.writeText(processedContent)
+        val sws = parse(processedFile)
+        processedFile.delete()
+
         return sws
     }
 

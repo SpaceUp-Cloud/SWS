@@ -20,18 +20,19 @@ import java.io.File
 
 class EndpointRule(private val urlParams: MutableMap<String, Any?>): BaseRule("SERVER_ENDPOINT") {
 
-    override fun process(sws: ServerWebScript, swsFile: File): ServerWebScript {
-        super.process(sws, swsFile)
-        val regexRule = Regex("ENDPOINT:(.+)?([A-Z]*)(.*)?(.*)")
-        val result = regexRule.find(swsFile.readText())?.groupValues
-        if (result != null) {
-            val splittedEndpoint = result[1].trimStart().split(" ")
-            val endpoint = Endpoint(splittedEndpoint[0], splittedEndpoint[1])
-            endpoint.setUrlParams(urlParams)
-            sws.serverEndpoint = endpoint
-        } else {
-            throw ParserException("Could not parse SERVER_ENDPOINT!")
+    override fun process(sws: ServerWebScript, swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript {
+        return super.process(sws, swsFile) {
+            val regexRule = Regex("${this.rule}:(.+)?([A-Z]*)(.*)?(.*)")
+            val result = regexRule.find(it.readText())?.groupValues
+            if (result != null) {
+                val splittedEndpoint = result[1].trimStart().split(" ")
+                val endpoint = Endpoint(splittedEndpoint[0], splittedEndpoint[1])
+                endpoint.setUrlParams(urlParams)
+                sws.serverEndpoint = endpoint
+            } else {
+                throw ParserException("Could not parse SERVER_ENDPOINT!")
+            }
+            sws
         }
-        return sws
     }
 }

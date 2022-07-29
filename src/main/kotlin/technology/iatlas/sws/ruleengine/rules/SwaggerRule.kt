@@ -19,17 +19,18 @@ import java.io.File
 
 class SwaggerRule : BaseRule("SWAGGER_DOC"), Logging {
 
-    override fun process(sws: ServerWebScript, swsFile: File): ServerWebScript {
-        super.process(sws, swsFile)
-        val regexRule = Regex("(${this.rule}:).+(\"{3})((.|\\s)*?)(?=\"{3})")
+    override fun process(sws: ServerWebScript, swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript {
+        return super.process(sws, swsFile) {
+            val regexRule = Regex("(${this.rule}:).+(\"{3})((.|\\s)*?)(?=\"{3})")
 
-        val result = regexRule.find(swsFile.readText())?.groupValues
-        if (result != null) {
-            sws.swaggerDoc = result[3].trim()
-        } else {
-            //throw ParserException("Could not parse ${this.rule}!")
-            logger.warn("Ignore ${this.rule} as it is not defined.")
+            val result = regexRule.find(it.readText())?.groupValues
+            if (result != null) {
+                sws.swaggerDoc = result[3].trim()
+            } else {
+                //throw ParserException("Could not parse ${this.rule}!")
+                logger.warn("Ignore ${this.rule} as it is not defined.")
+            }
+            sws
         }
-        return sws
     }
 }
