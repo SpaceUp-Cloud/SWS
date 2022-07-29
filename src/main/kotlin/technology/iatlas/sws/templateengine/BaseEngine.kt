@@ -14,12 +14,25 @@
 package technology.iatlas.sws.templateengine
 
 import technology.iatlas.sws.ServerWebScript
+import technology.iatlas.sws.objects.ParserException
+import java.io.BufferedReader
 import java.io.File
+import java.io.InputStreamReader
+import java.util.stream.Collectors
 
 abstract class BaseEngine(private val template: String): TemplateInf {
-    protected val templateFile: File = File(javaClass.getResource("/scripttemplates/${this.template}").file)
+    protected lateinit var templateFile: String
     override fun generate(sws: ServerWebScript, userServerScript: String, params: Map<String, Any>): ServerWebScript {
-        // TODO Here we can implement some security features
+        val inputStream = javaClass.getResourceAsStream("/scripttemplates/$template")
+        if(inputStream != null)  {
+            val reader = BufferedReader(InputStreamReader(inputStream))
+            templateFile = reader.lines().collect(Collectors.joining(System.lineSeparator()))
+
+            // TODO Here we can implement some security features
+        } else {
+            throw ParserException("Unable to retreive template $template")
+        }
+
         return sws
     }
 }

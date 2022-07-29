@@ -20,22 +20,18 @@ class Bash: BaseEngine("bash.sh") {
     override fun generate(sws: ServerWebScript, userServerScript: String, params: Map<String, Any>): ServerWebScript {
         val preParsedSWS = super.generate(sws, userServerScript, params)
 
-        if(this.templateFile.exists()) {
-            val templateFile = this.templateFile.readText()
-
-            // Add input parameters
-            var parameters = ""
-            params.keys.forEach {
-                parameters += "$it=${params[it]}\n"
-            }
-
-            preParsedSWS.serverScript = templateFile
-                .replace("%(${TemplateKeywords.DATE.name})", Date().toString(), ignoreCase = true)
-                .replace("%(${TemplateKeywords.HTTP_ACTION.name})", sws.serverEndpoint.httpAction, ignoreCase = true)
-                .replace("%(${TemplateKeywords.ENDPOINT.name})", sws.serverEndpoint.url, ignoreCase = true)
-                .replace("%(${TemplateKeywords.SERVER_SCRIPT.name})", userServerScript, ignoreCase = true)
-                .replace("%(${TemplateKeywords.PARAMS.name})", parameters, ignoreCase = true)
+        // Add input parameters
+        var parameters = ""
+        params.keys.forEach {
+            parameters += "$it=${params[it]}\n"
         }
+
+        preParsedSWS.serverScript = this.templateFile
+            .replace("%(${TemplateKeywords.DATE.name})", Date().toString(), ignoreCase = true)
+            .replace("%(${TemplateKeywords.HTTP_ACTION.name})", sws.serverEndpoint.httpAction, ignoreCase = true)
+            .replace("%(${TemplateKeywords.ENDPOINT.name})", sws.serverEndpoint.url, ignoreCase = true)
+            .replace("%(${TemplateKeywords.SERVER_SCRIPT.name})", userServerScript, ignoreCase = true)
+            .replace("%(${TemplateKeywords.PARAMS.name})", parameters, ignoreCase = true)
 
         return preParsedSWS
     }
