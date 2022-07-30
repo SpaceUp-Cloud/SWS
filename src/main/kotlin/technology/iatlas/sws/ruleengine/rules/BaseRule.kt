@@ -14,7 +14,7 @@
 package technology.iatlas.sws.ruleengine.rules
 
 import mu.KotlinLogging
-import technology.iatlas.sws.ServerWebScript
+import technology.iatlas.sws.SWS
 import java.io.File
 
 abstract class BaseRule(protected val rule: String): Rule {
@@ -24,12 +24,12 @@ abstract class BaseRule(protected val rule: String): Rule {
      * It's important to call super.proceed(file) to do the base parsing.
      * After doing the pre-parse stuff, you can use 'baseFile' for further processing.
      */
-    override fun process(sws: ServerWebScript, swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript {
+    override fun process(sws: SWS, swsFile: File, parse: (sws: File) -> SWS): SWS {
         logger.info("Process rule $rule")
         return processRule(swsFile, parse)
     }
 
-    private fun processRule(swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript {
+    private fun processRule(swsFile: File, parse: (sws: File) -> SWS): SWS {
         // Clear all comments
         logger.debug("Clear comments")
         val commentRegex = Regex("(?!#!)(#.*)", RegexOption.UNIX_LINES)

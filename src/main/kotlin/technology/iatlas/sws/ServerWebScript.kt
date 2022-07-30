@@ -14,6 +14,8 @@
 package technology.iatlas.sws
 
 import technology.iatlas.sws.objects.Endpoint
+import technology.iatlas.sws.ruleengine.rules.Rule
+import java.io.File
 
 sealed interface ServerWebScript {
 
@@ -76,12 +78,16 @@ sealed interface ServerWebScript {
      *
      * Property: CLIENT_RESPONSE
      */
-    var clientResponse: String
+    //var clientResponse: String
 
     /**
      * Set/Get dynamic url parameters
      */
     var urlParams: MutableMap<String, Any?>
 
-    fun parse()
+    fun parse(file: File): SWS
+
+    fun parse(file: File, rules: List<Rule>): SWS
+
+    //abstract fun parse(content: String)
 }

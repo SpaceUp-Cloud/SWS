@@ -13,14 +13,14 @@
 
 package technology.iatlas.sws.ruleengine.rules
 
-import technology.iatlas.sws.ServerWebScript
+import technology.iatlas.sws.SWS
 import technology.iatlas.sws.objects.ParserException
 import technology.iatlas.sws.templateengine.Template
 import java.io.File
 
 class ServerScriptRule : BaseRule("SERVER_SCRIPT") {
 
-    override fun process(sws: ServerWebScript, swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript {
+    override fun process(sws: SWS, swsFile: File, parse: (sws: File) -> SWS): SWS {
         return super.process(sws, swsFile) {
             val urlParams = sws.serverEndpoint.getUrlParams()
             val regexRule = Regex("(${this.rule}:).+(\"{3})((.|\\s)*?)(?=\"{3})")

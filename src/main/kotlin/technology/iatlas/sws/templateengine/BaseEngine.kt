@@ -13,16 +13,15 @@
 
 package technology.iatlas.sws.templateengine
 
-import technology.iatlas.sws.ServerWebScript
+import technology.iatlas.sws.SWS
 import technology.iatlas.sws.objects.ParserException
 import java.io.BufferedReader
-import java.io.File
 import java.io.InputStreamReader
 import java.util.stream.Collectors
 
 abstract class BaseEngine(private val template: String): TemplateInf {
     protected lateinit var templateFile: String
-    override fun generate(sws: ServerWebScript, userServerScript: String, params: Map<String, Any>): ServerWebScript {
+    override fun generate(sws: SWS, userServerScript: String, params: Map<String, Any>): SWS {
         val inputStream = javaClass.getResourceAsStream("/scripttemplates/$template")
         if(inputStream != null)  {
             val reader = BufferedReader(InputStreamReader(inputStream))

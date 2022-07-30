@@ -27,43 +27,36 @@ internal class ServerWebScriptTest {
     private val swsBaseFile = ServerWebScript::class.java.getResource("/testdata/basic.sws").file
 
     @Test
-    fun createServerWebScriptObject() {
-        logger.info("Create only the object")
-        val sws: ServerWebScript = SWSCreator.create(File(swsBaseFile))
-        assertNotNull(sws, "ServerWebScript is not null")
-    }
-
-    @Test
     fun createAndParseWebScriptObject() {
         logger.info("Create and parse the object")
-        val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile))
+        val sws: ServerWebScript = SWS.createAndParse(File(swsBaseFile))
         assertNotNull(sws, "ServerWebScript is not null")
     }
 
     @Test
     fun testName() {
-        val sws = SWSCreator.createAndParse(File(swsBaseFile), listOf(NameRule()))
+        val sws = SWS.createAndParse(File(swsBaseFile), listOf(NameRule()))
         assertEquals("Basic SWS", sws.name)
     }
 
     @Test
     fun testHoster() {
         // 'create' works as it is default, else it would fail
-        val sws = SWSCreator.createAndParse(File(swsBaseFile), listOf(HosterRule()))
+        val sws = SWS.createAndParse(File(swsBaseFile), listOf(HosterRule()))
         assertEquals("Uberspace", sws.hoster)
     }
 
     @Test
     fun testEndpoint() {
         val sws: ServerWebScript =
-            SWSCreator.createAndParse(File(swsBaseFile), listOf(EndpointRule(mutableMapOf())))
+            SWS.createAndParse(File(swsBaseFile), listOf(EndpointRule(mutableMapOf())))
         assertEquals("GET", sws.serverEndpoint.httpAction)
         assertEquals("/test/basic?param1=defaultValue&param2=", sws.serverEndpoint.url)
     }
 
     @Test
     fun testServerLang() {
-        val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile), listOf(LangRule()))
+        val sws: ServerWebScript = SWS.createAndParse(File(swsBaseFile), listOf(LangRule()))
         assertEquals("#!/usr/bin/env bash", sws.serverLang)
     }
 
@@ -71,7 +64,7 @@ internal class ServerWebScriptTest {
     fun testSwaggerDoc() {
         val docString = "Just to lazy to write something useful here."
         val sws: ServerWebScript =
-            SWSCreator.createAndParse(File(swsBaseFile), listOf(SwaggerRule()))
+            SWS.createAndParse(File(swsBaseFile), listOf(SwaggerRule()))
         assertEquals(docString, sws.swaggerDoc)
     }
 
@@ -81,7 +74,7 @@ internal class ServerWebScriptTest {
         urlParams["param1"] = null
         urlParams["param2"] = "test2"
 
-        val sws = SWSCreator.createAndParse(File(swsBaseFile),
+        val sws = SWS.createAndParse(File(swsBaseFile),
             listOf(EndpointRule(urlParams)))
 
         val params = sws.serverEndpoint.getUrlParams()
@@ -98,7 +91,7 @@ internal class ServerWebScriptTest {
         urlParams["param1"] = null
         urlParams["param2"] = "myValue"
 
-        val sws = SWSCreator.createAndParse(File(swsBaseFile), urlParams)
+        val sws = SWS.createAndParse(File(swsBaseFile), urlParams)
 
         val expected = "#!/usr/bin/env bash"
         assertNotNull(sws.serverScript)
@@ -110,7 +103,7 @@ internal class ServerWebScriptTest {
 
     @Test
     fun testAllProps() {
-        val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile))
+        val sws: ServerWebScript = SWS.createAndParse(File(swsBaseFile))
         assertNotNull(sws.name)
         assertNotNull(sws.hoster)
         assertNotNull(sws.serverEndpoint)

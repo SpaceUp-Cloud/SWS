@@ -13,12 +13,12 @@
 
 package technology.iatlas.sws.templateengine
 
-import technology.iatlas.sws.ServerWebScript
+import technology.iatlas.sws.SWS
 import technology.iatlas.sws.objects.TemplateGenerateException
 
 class Template {
     companion object {
-        fun generate(sws: ServerWebScript, serverScriptTemplate: String, params: Map<String, Any>): ServerWebScript {
+        fun generate(sws: SWS, serverScriptTemplate: String, params: Map<String, Any>): SWS {
             val serverLang = sws.serverLang.uppercase()
             when {
                 serverLang.contains(ServerLang.BASH.name) -> {

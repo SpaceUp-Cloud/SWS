@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2021 thraax.session@gino-atlas.de.
+ * Copyright(c) 2022 thraax.session@gino-atlas.de.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -13,11 +13,11 @@
 
 package technology.iatlas.sws.ruleengine
 
-import technology.iatlas.sws.ServerWebScript
+import technology.iatlas.sws.SWS
 import technology.iatlas.sws.ruleengine.rules.Rule
 import java.io.File
 
-class Parser(val sws: ServerWebScript, var file: File) {
+class Parser(var sws: SWS, var file: File) {
     private val rules: ArrayList<Rule> = arrayListOf()
 
     fun addRule(rule: Rule): Parser {
@@ -25,9 +25,12 @@ class Parser(val sws: ServerWebScript, var file: File) {
         return this
     }
 
-    fun parse() {
+    fun parse(): SWS {
+
         rules.forEach {
-            it.process(sws, file) { _: File -> this.sws }
+            sws = it.process(sws, file) { _: File -> sws }
         }
+
+        return sws
     }
 }

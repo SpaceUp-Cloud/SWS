@@ -13,14 +13,14 @@
 
 package technology.iatlas.sws.ruleengine.rules
 
-import technology.iatlas.sws.ServerWebScript
+import technology.iatlas.sws.SWS
 import technology.iatlas.sws.objects.Endpoint
 import technology.iatlas.sws.objects.ParserException
 import java.io.File
 
 class EndpointRule(private val urlParams: MutableMap<String, Any?>): BaseRule("SERVER_ENDPOINT") {
 
-    override fun process(sws: ServerWebScript, swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript {
+    override fun process(sws: SWS, swsFile: File, parse: (sws: File) -> SWS): SWS {
         return super.process(sws, swsFile) {
             val regexRule = Regex("${this.rule}:(.+)?([A-Z]*)(.*)?(.*)")
             val result = regexRule.find(it.readText())?.groupValues

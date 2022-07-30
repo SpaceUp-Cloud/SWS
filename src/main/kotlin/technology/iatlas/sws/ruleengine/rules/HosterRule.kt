@@ -13,13 +13,13 @@
 
 package technology.iatlas.sws.ruleengine.rules
 
-import technology.iatlas.sws.ServerWebScript
+import technology.iatlas.sws.SWS
 import technology.iatlas.sws.objects.ParserException
 import java.io.File
 
 class HosterRule : BaseRule("HOSTER") {
 
-    override fun process(sws: ServerWebScript, swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript {
+    override fun process(sws: SWS, swsFile: File, parse: (sws: File) -> SWS): SWS {
         return super.process(sws, swsFile) {
             val regexRule = Regex("${this.rule}:(.+)?(.*)")
 

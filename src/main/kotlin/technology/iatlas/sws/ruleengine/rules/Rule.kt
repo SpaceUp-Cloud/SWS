@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2021 thraax.session@gino-atlas.de.
+ * Copyright(c) 2022 thraax.session@gino-atlas.de.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -13,9 +13,9 @@
 
 package technology.iatlas.sws.ruleengine.rules
 
-import technology.iatlas.sws.ServerWebScript
+import technology.iatlas.sws.SWS
 import java.io.File
 
 interface Rule {
-    fun process(sws: ServerWebScript, swsFile: File, parse: (sws: File) -> ServerWebScript): ServerWebScript
+    fun process(sws: SWS, swsFile: File, parse: (sws: File) -> SWS): SWS
 }

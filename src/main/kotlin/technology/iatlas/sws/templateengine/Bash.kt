@@ -13,11 +13,11 @@
 
 package technology.iatlas.sws.templateengine
 
-import technology.iatlas.sws.ServerWebScript
+import technology.iatlas.sws.SWS
 import java.util.*
 
 class Bash: BaseEngine("bash.sh") {
-    override fun generate(sws: ServerWebScript, userServerScript: String, params: Map<String, Any>): ServerWebScript {
+    override fun generate(sws: SWS, userServerScript: String, params: Map<String, Any>): SWS {
         val preParsedSWS = super.generate(sws, userServerScript, params)
 
         // Add input parameters
