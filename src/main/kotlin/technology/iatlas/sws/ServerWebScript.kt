@@ -16,6 +16,14 @@ package technology.iatlas.sws
 import technology.iatlas.sws.objects.Endpoint
 
 sealed interface ServerWebScript {
+
+    /**
+     * Defines the name of the server web scripts
+     *
+     * Property: NAME
+     */
+    var name: String
+
     /**
      * Defines where we should run.
      *

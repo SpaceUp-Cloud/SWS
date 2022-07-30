@@ -15,14 +15,12 @@ package technology.iatlas.sws
 
 import mu.KotlinLogging
 import org.junit.jupiter.api.Test
-import technology.iatlas.sws.ruleengine.rules.EndpointRule
-import technology.iatlas.sws.ruleengine.rules.HosterRule
-import technology.iatlas.sws.ruleengine.rules.LangRule
-import technology.iatlas.sws.ruleengine.rules.SwaggerRule
+import technology.iatlas.sws.ruleengine.rules.*
 import java.io.File
 import kotlin.test.assertEquals
 import kotlin.test.assertNotEquals
 import kotlin.test.assertNotNull
+import kotlin.test.assertTrue
 
 internal class ServerWebScriptTest {
     private val logger = KotlinLogging.logger {}
@@ -40,6 +38,12 @@ internal class ServerWebScriptTest {
         logger.info("Create and parse the object")
         val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile))
         assertNotNull(sws, "ServerWebScript is not null")
+    }
+
+    @Test
+    fun testName() {
+        val sws = SWSCreator.createAndParse(File(swsBaseFile), listOf(NameRule()))
+        assertEquals("Basic SWS", sws.name)
     }
 
     @Test
@@ -96,16 +100,18 @@ internal class ServerWebScriptTest {
 
         val sws = SWSCreator.createAndParse(File(swsBaseFile), urlParams)
 
+        val expected = "#!/usr/bin/env bash"
         assertNotNull(sws.serverScript)
         assertNotEquals("", sws.serverScript)
         // From the bash template
-        assertEquals("#!/usr/bin/env bash", sws.serverLang)
-        assertEquals("#!/usr/bin/env bash", sws.serverScript.split("\n")[0])
+        assertEquals(expected, sws.serverLang)
+        assertTrue(sws.serverScript.contains(expected))
     }
 
     @Test
     fun testAllProps() {
         val sws: ServerWebScript = SWSCreator.createAndParse(File(swsBaseFile))
+        assertNotNull(sws.name)
         assertNotNull(sws.hoster)
         assertNotNull(sws.serverEndpoint)
         assertNotNull(sws.serverScript)

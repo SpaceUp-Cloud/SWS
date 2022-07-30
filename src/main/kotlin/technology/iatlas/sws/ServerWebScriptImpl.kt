@@ -24,6 +24,7 @@ import java.io.File
  */
 internal class ServerWebScriptImpl(
     var file: File,
+    override var name: String,
     override var hoster: String,
     override var swaggerDoc: String,
     override var serverLang: String,
@@ -40,6 +41,7 @@ internal class ServerWebScriptImpl(
     override fun parse() {
         logger.info("Called parser")
         Parser(this, file)
+            .addRule(NameRule())
             .addRule(SwaggerRule())
             .addRule(HosterRule())
             .addRule(EndpointRule(urlParams))
@@ -75,7 +77,7 @@ internal fun ServerWebScriptImpl.Companion.createAndParse(
 
     val endpoint = Endpoint("", "")
     val sws = ServerWebScriptImpl(
-        file,
+        file, "",
         "Uberspace", "", "", "",
         endpoint, "", arrayListOf(), "", urlParams
     )
@@ -89,7 +91,7 @@ internal fun ServerWebScriptImpl.Companion.createAndParse(
 
     val endpoint = Endpoint("", "")
     val sws = ServerWebScriptImpl(
-        file,
+        file, "",
         "Uberspace", "", "", "",
         endpoint, "", arrayListOf(), "", urlParams
     )
@@ -103,7 +105,7 @@ internal fun ServerWebScriptImpl.Companion.create(
 
     val endpoint = Endpoint("", "")
     return ServerWebScriptImpl(
-        file,
+        file, "",
         "Uberspace", "", "", "",
         endpoint, "", arrayListOf(), "", urlParams
     )

@@ -26,7 +26,6 @@ class SwaggerRule : BaseRule("SWAGGER_DOC") {
             if (result != null) {
                 sws.swaggerDoc = result[3].trim()
             } else {
-                //throw ParserException("Could not parse ${this.rule}!")
                 this.logger.warn("Ignore ${this.rule} as it is not defined.")
             }
             sws

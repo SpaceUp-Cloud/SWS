@@ -30,7 +30,7 @@ class EndpointRule(private val urlParams: MutableMap<String, Any?>): BaseRule("S
                 endpoint.setUrlParams(urlParams)
                 sws.serverEndpoint = endpoint
             } else {
-                throw ParserException("Could not parse SERVER_ENDPOINT!")
+                throw ParserException("Could not parse $rule!")
             }
             sws
         }

@@ -3,6 +3,7 @@
 #
 # Just another comment but multiline ;)
 #
+NAME: Basic SWS
 
 # If you want to add documentation to the REST endpoint, use this swagger doc with multiline functionality
 # But, future functionality might be that I will generate it for you by this file information
