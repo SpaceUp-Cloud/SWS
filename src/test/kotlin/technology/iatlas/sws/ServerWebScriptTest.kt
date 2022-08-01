@@ -70,6 +70,7 @@ internal class ServerWebScriptTest {
 
     @Test
     fun testEndpointParameters() {
+        // Simulate HTTP request parameters
         val urlParams = mutableMapOf<String, Any?>()
         urlParams["param1"] = null
         urlParams["param2"] = "test2"

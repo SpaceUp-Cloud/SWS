@@ -16,5 +16,5 @@ package technology.iatlas.sws.templateengine
 import technology.iatlas.sws.SWS
 
 interface TemplateInf {
-    fun generate(sws: SWS, userServerScript: String, params: Map<String, Any>): SWS
+    fun generate(sws: SWS, userServerScript: String, params: Map<String, Any?>): SWS
 }

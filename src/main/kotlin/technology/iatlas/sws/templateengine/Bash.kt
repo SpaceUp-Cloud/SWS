@@ -17,21 +17,18 @@ import technology.iatlas.sws.SWS
 import java.util.*
 
 class Bash: BaseEngine("bash.sh") {
-    override fun generate(sws: SWS, userServerScript: String, params: Map<String, Any>): SWS {
+    override fun generate(sws: SWS, userServerScript: String, params: Map<String, Any?>): SWS {
         val preParsedSWS = super.generate(sws, userServerScript, params)
 
         // Add input parameters
         var parameters = ""
-        params.keys.forEach {
+        params.forEach { (k, v) ->
             // We try to differ between String and Integer values
-
-            parameters += try {
-                val intParam = Integer.parseInt(it)
-                "$it=$intParam\n"
-            } catch (nfex: NumberFormatException) {
-                "$it=\"${params[it]}\"\n"
+            parameters += if(v is Int) {
+                "$k=$v\n"
+            } else {
+                "$k=\"$v\"\n"
             }
-
         }
 
         preParsedSWS.serverScript = this.templateFile

@@ -17,9 +17,15 @@ import mu.KotlinLogging
 
 data class Endpoint(val httpAction: String, val url: String) {
     private val logger = KotlinLogging.logger {}
-    private val urlParams: MutableMap<String, Any> = mutableMapOf()
+    private val urlParams: MutableMap<String, Any?> = mutableMapOf()
 
-    fun getUrlParams(): MutableMap<String, Any> {
+    init {
+        val templateParams = getTemplateUrlParams()
+        // Set all template params as url params to generate variables in template
+        templateParams.forEach { (t, u) -> urlParams[t] = u }
+    }
+
+    fun getUrlParams(): MutableMap<String, Any?> {
         return urlParams
     }
 
@@ -30,8 +36,8 @@ data class Endpoint(val httpAction: String, val url: String) {
         if(templateParams.containsKey(key) && value != null) {
             urlParams[key] = value
             // Has key but no value but default value
-        } else if(templateParams.containsKey(key) && value == null&& templateParams[key] != null) {
-            urlParams[key] = templateParams[key] as Any
+        } else if(templateParams.containsKey(key) && value == null && templateParams[key] != null) {
+            urlParams[key] = templateParams[key]
             // Has key but no possible value
         } else if(templateParams.containsKey(key) && value == null && templateParams[key] == null){
             logger.warn("Key '$key' was found but no value to map. " +
@@ -47,8 +53,8 @@ data class Endpoint(val httpAction: String, val url: String) {
         }
     }
 
-    private fun getTemplateUrlParams(): Map<String, Any> {
-        val params = mutableMapOf<String, Any>()
+    private fun getTemplateUrlParams(): Map<String, Any?> {
+        val params = mutableMapOf<String, Any?>()
         val result = Regex("([^&?]+?)=([^&?]+)?", RegexOption.MULTILINE).findAll(url)
 
         result.iterator().forEach {

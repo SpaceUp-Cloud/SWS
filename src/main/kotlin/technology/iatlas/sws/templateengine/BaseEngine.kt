@@ -21,7 +21,7 @@ import java.util.stream.Collectors
 
 abstract class BaseEngine(private val template: String): TemplateInf {
     protected lateinit var templateFile: String
-    override fun generate(sws: SWS, userServerScript: String, params: Map<String, Any>): SWS {
+    override fun generate(sws: SWS, userServerScript: String, params: Map<String, Any?>): SWS {
         val inputStream = javaClass.getResourceAsStream("/scripttemplates/$template")
         if(inputStream != null)  {
             val reader = BufferedReader(InputStreamReader(inputStream))
