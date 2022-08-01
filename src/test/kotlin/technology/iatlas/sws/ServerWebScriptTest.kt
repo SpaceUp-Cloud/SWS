@@ -51,7 +51,7 @@ internal class ServerWebScriptTest {
         val sws: ServerWebScript =
             SWS.createAndParse(File(swsBaseFile), listOf(EndpointRule(mutableMapOf())))
         assertEquals("GET", sws.serverEndpoint.httpAction)
-        assertEquals("/test/basic?param1=defaultValue&param2=", sws.serverEndpoint.url)
+        assertEquals("/test/basic?param1=defaultValue&param2=&intparam=", sws.serverEndpoint.url)
     }
 
     @Test
