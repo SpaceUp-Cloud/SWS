@@ -18,7 +18,7 @@ HOSTER: Uberspace
 # That's a basic endpoint which needs to be register in your web server application.
 # If those key/value should be used in your script, they have to be declared here at least.
 # URI with default params and without default value.
-SERVER_ENDPOINT: GET /test/basic?param1=defaultValue&param2=
+SERVER_ENDPOINT: GET /test/basic?param1=defaultValue&param2=&intparam=
 
 # This is the skeleton script which will be used for the generated one.
 SERVER_LANG: #!/usr/bin/env bash
@@ -26,6 +26,7 @@ SERVER_SCRIPT: """
 # $urlParamName will be identical to the parameters from the REST endpoint
 echo param1 # value is "defaultValue"
 echo param2 # will be empty
+echo intparam
 """
 
 # This describes how the response looks like for the client

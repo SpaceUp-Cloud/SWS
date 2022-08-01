@@ -14,6 +14,7 @@
 package technology.iatlas.sws.templateengine
 
 enum class TemplateKeywords {
+    NAME,
     DATE,
     HTTP_ACTION,
     ENDPOINT,

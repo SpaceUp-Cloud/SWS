@@ -23,10 +23,19 @@ class Bash: BaseEngine("bash.sh") {
         // Add input parameters
         var parameters = ""
         params.keys.forEach {
-            parameters += "$it=${params[it]}\n"
+            // We try to differ between String and Integer values
+
+            parameters += try {
+                val intParam = Integer.parseInt(it)
+                "$it=$intParam\n"
+            } catch (nfex: NumberFormatException) {
+                "$it=\"${params[it]}\"\n"
+            }
+
         }
 
         preParsedSWS.serverScript = this.templateFile
+            .replace("%(${TemplateKeywords.NAME})", sws.name, ignoreCase = true)
             .replace("%(${TemplateKeywords.DATE.name})", Date().toString(), ignoreCase = true)
             .replace("%(${TemplateKeywords.HTTP_ACTION.name})", sws.serverEndpoint.httpAction, ignoreCase = true)
             .replace("%(${TemplateKeywords.ENDPOINT.name})", sws.serverEndpoint.url, ignoreCase = true)

@@ -73,6 +73,7 @@ internal class ServerWebScriptTest {
         val urlParams = mutableMapOf<String, Any?>()
         urlParams["param1"] = null
         urlParams["param2"] = "test2"
+        urlParams["intparam"] = 42
 
         val sws = SWS.createAndParse(File(swsBaseFile),
             listOf(EndpointRule(urlParams)))
@@ -82,7 +83,8 @@ internal class ServerWebScriptTest {
         assertEquals(true, params.containsKey("param1"))
         assertEquals("defaultValue", params["param1"])
         assertEquals("test2", params["param2"])
-        assertEquals(2, sws.serverEndpoint.getUrlParams().size)
+        assertEquals(42, params["intparam"])
+        assertEquals(3, sws.serverEndpoint.getUrlParams().size)
     }
 
     @Test
