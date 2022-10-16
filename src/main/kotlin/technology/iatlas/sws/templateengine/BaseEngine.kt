@@ -21,7 +21,12 @@ import java.util.stream.Collectors
 
 abstract class BaseEngine(private val template: String): TemplateInf {
     protected lateinit var templateFile: String
-    override fun generate(sws: SWS, userServerScript: String, params: Map<String, Any?>): SWS {
+    override fun generate(
+        sws: SWS,
+        userServerScript: String,
+        params: Map<String, Any?>,
+        httpBody: Map<String, Any?>
+    ): SWS {
         val inputStream = javaClass.getResourceAsStream("/scripttemplates/$template")
         if(inputStream != null)  {
             val reader = BufferedReader(InputStreamReader(inputStream))
@@ -29,7 +34,7 @@ abstract class BaseEngine(private val template: String): TemplateInf {
 
             // TODO Here we can implement some security features
         } else {
-            throw ParserException("Unable to retreive template $template")
+            throw ParserException("Unable to retrieve template $template")
         }
 
         return sws

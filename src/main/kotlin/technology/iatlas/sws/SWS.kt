@@ -29,7 +29,8 @@ data class SWS(
     override var serverScript: String = "",
     override var serverResponseObjects: List<Any> = listOf(),
     //override var clientResponse: String, TODO implement me
-    override var urlParams: MutableMap<String, Any?> = mutableMapOf()
+    override var urlParams: MutableMap<String, Any?> = mutableMapOf(),
+    override var httpBody: MutableMap<String, Any?> = mutableMapOf()
 ) : ServerWebScript {
     private val logger = KotlinLogging.logger {}
 
@@ -41,7 +42,7 @@ data class SWS(
             .addRule(HosterRule())
             .addRule(EndpointRule(urlParams))
             .addRule(LangRule())
-            .addRule(ServerScriptRule())
+            .addRule(ServerScriptRule(httpBody))
             .parse()
 
         return this
@@ -61,11 +62,14 @@ data class SWS(
     companion object {
         val endpoint = Endpoint("", "")
 
-        fun createAndParse(file: File, urlParams: MutableMap<String, Any?> = mutableMapOf()): SWS {
+        fun createAndParse(file: File,
+                           urlParams: MutableMap<String, Any?> = mutableMapOf(),
+                           httpBody: MutableMap<String, Any?> = mutableMapOf()
+        ): SWS {
             val sws = SWS(
                 "",
                 "Uberspace", "", "", "",
-                endpoint, "", arrayListOf(), urlParams
+                endpoint, "", arrayListOf(), urlParams, httpBody
             )
 
             sws.parse(file)
@@ -74,12 +78,13 @@ data class SWS(
 
         fun createAndParse(
             file: File, rules: List<Rule>,
-            urlParams: MutableMap<String, Any?> = mutableMapOf()
+            urlParams: MutableMap<String, Any?> = mutableMapOf(),
+            httpBody: MutableMap<String, Any?> = mutableMapOf()
         ): SWS {
             val sws = SWS(
                 "",
                 "Uberspace", "", "", "",
-                endpoint, "", arrayListOf(), urlParams
+                endpoint, "", arrayListOf(), urlParams, httpBody
             )
 
             sws.parse(file, rules)

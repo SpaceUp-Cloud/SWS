@@ -85,6 +85,11 @@ sealed interface ServerWebScript {
      */
     var urlParams: MutableMap<String, Any?>
 
+    /**
+     * Present the http body
+     */
+    var httpBody: MutableMap<String, Any?>
+
     fun parse(file: File): SWS
 
     fun parse(file: File, rules: List<Rule>): SWS

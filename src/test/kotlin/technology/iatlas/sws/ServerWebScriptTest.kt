@@ -105,6 +105,19 @@ internal class ServerWebScriptTest {
     }
 
     @Test
+    fun `Pass HTTP Body to ServerScriptRule`() {
+        val httpBody = mutableMapOf<String, Any?>()
+        httpBody["user"] = "Testuser"
+        httpBody["secret"] = "123!"
+        httpBody["host"] = "anyhost"
+
+        val sws = SWS.createAndParse(File(swsBaseFile), httpBody = httpBody)
+        assertTrue(sws.serverScript.contains("user=\"Testuser\""))
+        assertTrue(sws.serverScript.contains("secret=\"123!\""))
+        assertTrue(sws.serverScript.contains("host=\"anyhost\""))
+    }
+
+    @Test
     fun testAllProps() {
         val sws: ServerWebScript = SWS.createAndParse(File(swsBaseFile))
         assertNotNull(sws.name)

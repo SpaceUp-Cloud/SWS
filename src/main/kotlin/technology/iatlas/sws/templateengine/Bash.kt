@@ -17,13 +17,24 @@ import technology.iatlas.sws.SWS
 import java.util.*
 
 class Bash: BaseEngine("bash.sh") {
-    override fun generate(sws: SWS, userServerScript: String, params: Map<String, Any?>): SWS {
-        val preParsedSWS = super.generate(sws, userServerScript, params)
+    override fun generate(sws: SWS,
+                          userServerScript: String,
+                          params: Map<String, Any?>,
+                          httpBody: Map<String, Any?>
+    ): SWS {
+        val preParsedSWS = super.generate(sws, userServerScript, params, httpBody)
 
         // Add input parameters
         var parameters = ""
         params.forEach { (k, v) ->
             // We try to differ between String and Integer values
+            parameters += if(v is Int) {
+                "$k=$v\n"
+            } else {
+                "$k=\"$v\"\n"
+            }
+        }
+        httpBody.forEach { (k, v) ->
             parameters += if(v is Int) {
                 "$k=$v\n"
             } else {

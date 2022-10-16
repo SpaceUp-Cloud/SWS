@@ -18,7 +18,9 @@ import technology.iatlas.sws.objects.ParserException
 import technology.iatlas.sws.templateengine.Template
 import java.io.File
 
-class ServerScriptRule : BaseRule("SERVER_SCRIPT") {
+class ServerScriptRule(
+    private val httpBody: MutableMap<String, Any?> = mutableMapOf()
+) : BaseRule("SERVER_SCRIPT") {
 
     override fun process(sws: SWS, swsFile: File, parse: (sws: File) -> SWS): SWS {
         return super.process(sws, swsFile) {
@@ -28,7 +30,7 @@ class ServerScriptRule : BaseRule("SERVER_SCRIPT") {
             val result = regexRule.find(it.readText())?.groupValues
             if(result != null) {
                 val sst = result[3].trim()
-                Template.generate(sws, sst, urlParams)
+                Template.generate(sws, sst, urlParams, httpBody)
             } else {
                 throw ParserException("Could not parse ${this.rule}!")
             }

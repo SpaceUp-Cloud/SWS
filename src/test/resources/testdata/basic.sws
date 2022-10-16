@@ -27,13 +27,8 @@ SERVER_SCRIPT: """
 echo param1 # value is "defaultValue"
 echo param2 # will be empty
 echo intparam
-"""
-
-# This describes how the response looks like for the client
-CLIENT_RESPONSE: """
-{
-    # SWS_RESPONSE is a special variable which contains all stdout from your SERVER_SCRIPT
-    # By this example "Hello World!"
-    "MyResponse": SWS_RESPONSE
-}
+# We can use variables which we passed as HTTP body to transfer secrets
+echo user
+echo secret
+echo host
 """
