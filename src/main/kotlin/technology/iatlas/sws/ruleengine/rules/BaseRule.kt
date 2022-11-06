@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2022 thraax.session@gino-atlas.de.
+ * Copyright(c) 2022 spaceup@iatlas.technology.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -36,7 +36,7 @@ abstract class BaseRule(protected val rule: String): Rule {
         var processedContent = swsFile.readText().replace(commentRegex, "").trim()
         processedContent = processedContent.replace(Regex("(?!\\w*)( *)"), "")
 
-        var cleanedFile: String = ""
+        var cleanedFile = ""
         processedContent.lines().forEach {
             if(it.isNotEmpty() || it.isNotBlank() || !it.contains("")) {
                 cleanedFile += it + "\n"

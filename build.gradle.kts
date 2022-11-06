@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2022 thraax.session@gino-atlas.de.
+ * Copyright(c) 2022 spaceup@iatlas.technology.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -23,7 +23,7 @@ plugins {
 apply<MavenPublishPlugin>()
 
 group = "technology.iatlas.sws"
-version = "1.4.0-SNAPSHOT"
+version = "1.4.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
@@ -31,11 +31,11 @@ repositories {
 
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.0")
-    implementation("io.github.microutils:kotlin-logging-jvm:2.1.23")
-    implementation("ch.qos.logback:logback-classic:1.2.11")
-    implementation("ch.qos.logback:logback-core:1.2.11")
-    implementation("org.slf4j:slf4j-api:1.7.36")
-    implementation("org.junit.jupiter:junit-jupiter:5.8.2")
+    implementation("io.github.microutils:kotlin-logging-jvm:3.0.3")
+    implementation("ch.qos.logback:logback-classic:1.4.4")
+    implementation("ch.qos.logback:logback-core:1.4.4")
+    implementation("org.slf4j:slf4j-api:2.0.3")
+    implementation("org.junit.jupiter:junit-jupiter:5.9.0")
     testImplementation(kotlin("test"))
 }
 

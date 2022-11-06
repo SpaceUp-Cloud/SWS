@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 
 #
-# Copyright(c) 2022 thraax.session@gino-atlas.de.
+# Copyright(c) 2022 spaceup@iatlas.technology.
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
 # associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -20,6 +20,9 @@
 # HTTP Action: %(HTTP_ACTION)
 # HTTP Endpoint: %(ENDPOINT)
 #
+
+# Convenient helper
+error() { printf "%s" "$*" >&2; }
 
 # Generated input parameters which will be used by the main script
 %(PARAMS)
