@@ -16,6 +16,7 @@ package technology.iatlas.sws.ruleengine.rules
 import mu.KotlinLogging
 import technology.iatlas.sws.SWS
 import java.io.File
+import kotlin.io.path.writeText
 
 abstract class BaseRule(protected val rule: String): Rule {
     protected val logger = KotlinLogging.logger {}
@@ -44,10 +45,10 @@ abstract class BaseRule(protected val rule: String): Rule {
         }
 
         // Done - write result
-        val processedFile = File(rule)
+        val processedFile = kotlin.io.path.createTempFile(rule)
         processedFile.writeText(cleanedFile)
-        val sws = parse(processedFile)
-        processedFile.delete()
+        val sws = parse(processedFile.toFile())
+        processedFile.toFile().delete()
 
         return sws
     }
