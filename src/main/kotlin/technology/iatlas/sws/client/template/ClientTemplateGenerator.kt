@@ -36,7 +36,7 @@ class ClientTemplateGenerator {
             }
             template += "\n"
         }
-        return template
+        return template.trimEnd()
     }
 
     private fun getClientTemplateProps(): List<ClientTemplate> {
@@ -52,4 +52,8 @@ class ClientTemplateGenerator {
 
         return clientTemplate
     }
+}
+
+fun main() {
+    print(ClientTemplateGenerator().generate())
 }
