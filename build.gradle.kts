@@ -24,7 +24,7 @@ plugins {
 apply<MavenPublishPlugin>()
 
 group = "technology.iatlas.sws"
-version = "1.5.0-SNAPSHOT"
+version = "1.5.1-SNAPSHOT"
 
 repositories {
     mavenCentral()
