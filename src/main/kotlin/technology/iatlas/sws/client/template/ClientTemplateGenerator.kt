@@ -53,7 +53,3 @@ class ClientTemplateGenerator {
         return clientTemplate
     }
 }
-
-fun main() {
-    print(ClientTemplateGenerator().generate())
-}
