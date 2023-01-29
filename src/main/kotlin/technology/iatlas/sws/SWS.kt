@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2022 spaceup@iatlas.technology.
+ * Copyright(c) 2023 spaceup@iatlas.technology.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -14,6 +14,7 @@
 package technology.iatlas.sws
 
 import mu.KotlinLogging
+import technology.iatlas.sws.client.template.ClientTemplateGenerator
 import technology.iatlas.sws.objects.Endpoint
 import technology.iatlas.sws.ruleengine.Parser
 import technology.iatlas.sws.ruleengine.rules.*
@@ -24,11 +25,8 @@ data class SWS(
     override var hoster: String = "",
     override var swaggerDoc: String = "",
     override var serverLang: String = "",
-    override var clientLang: String = "",
     override var serverEndpoint: Endpoint = Endpoint("", ""),
     override var serverScript: String = "",
-    override var serverResponseObjects: List<Any> = listOf(),
-    //override var clientResponse: String, TODO implement me
     override var urlParams: MutableMap<String, Any?> = mutableMapOf(),
     override var httpBody: MutableMap<String, Any?> = mutableMapOf()
 ) : ServerWebScript {
@@ -67,9 +65,8 @@ data class SWS(
                            httpBody: MutableMap<String, Any?> = mutableMapOf()
         ): SWS {
             val sws = SWS(
-                "",
-                "Uberspace", "", "", "",
-                endpoint, "", arrayListOf(), urlParams, httpBody
+                "", "Uberspace", "", "",
+                endpoint, "", urlParams, httpBody
             )
 
             sws.parse(file)
@@ -82,13 +79,16 @@ data class SWS(
             httpBody: MutableMap<String, Any?> = mutableMapOf()
         ): SWS {
             val sws = SWS(
-                "",
-                "Uberspace", "", "", "",
-                endpoint, "", arrayListOf(), urlParams, httpBody
+                "", "Uberspace", "", "",
+                endpoint, "", urlParams, httpBody
             )
 
             sws.parse(file, rules)
             return sws
+        }
+
+        fun clientTemplate(): String {
+            return ClientTemplateGenerator().generate()
         }
     }
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2022 spaceup@iatlas.technology.
+ * Copyright(c) 2023 spaceup@iatlas.technology.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -12,31 +12,37 @@
  */
 
 plugins {
-    kotlin("jvm") version "1.7.0"
+    kotlin("jvm") version "1.8.0"
     id("org.sonarqube") version "3.3"
     id("maven-publish")
     id("java")
     application
     jacoco
+    //java
 }
 
 apply<MavenPublishPlugin>()
 
 group = "technology.iatlas.sws"
-version = "1.4.1-SNAPSHOT"
+version = "1.5.0-SNAPSHOT"
 
 repositories {
     mavenCentral()
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.7.0")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.3")
     implementation("ch.qos.logback:logback-classic:1.4.4")
     implementation("ch.qos.logback:logback-core:1.4.4")
     implementation("org.slf4j:slf4j-api:2.0.3")
     implementation("org.junit.jupiter:junit-jupiter:5.9.0")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.0")
     testImplementation(kotlin("test"))
+}
+
+kotlin {
+    jvmToolchain(11)
 }
 
 jacoco {

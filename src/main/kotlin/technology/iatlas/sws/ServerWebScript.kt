@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2022 spaceup@iatlas.technology.
+ * Copyright(c) 2023 spaceup@iatlas.technology.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -13,6 +13,7 @@
 
 package technology.iatlas.sws
 
+import technology.iatlas.sws.objects.ClientTemplate
 import technology.iatlas.sws.objects.Endpoint
 import technology.iatlas.sws.ruleengine.rules.Rule
 import java.io.File
@@ -24,6 +25,7 @@ sealed interface ServerWebScript {
      *
      * Property: NAME
      */
+    @ClientTemplate("NAME", "", false)
     var name: String
 
     /**
@@ -33,6 +35,7 @@ sealed interface ServerWebScript {
      *
      * Default: Uberspace
      */
+    @ClientTemplate("HOSTER", "Uberspace", false)
     var hoster: String
 
     /**
@@ -46,39 +49,22 @@ sealed interface ServerWebScript {
      *
      * Property: SERVER_LANG
      */
+    @ClientTemplate("SERVER_LANG", "#!/usr/bin/env bash", false)
     var serverLang: String
-    /**
-     * Defines the response object language
-     *
-     * Property: CLIENT_LANG
-     */
-    var clientLang: String
     /**
      * Defines the endpoint where we should be exposed to
      *
      * Property: SERVER_ENDPOINT
      */
+    @ClientTemplate(name = "SERVER_ENDPOINT", "", false)
     var serverEndpoint: Endpoint
     /**
      * Depending on the server language, we define the script which will run on the server
      *
      * Property: SERVER_SCRIPT
      */
+    @ClientTemplate(name = "SERVER_SCRIPT", "", true)
     var serverScript: String
-    /**
-     * Represents the return values from the script
-     *
-     * Property: SERVER_RESPONSE_OBJECTS
-     *
-     * Example: SERVER_RESPONSE_OBJECTS: obj1; Obj2; ...
-     */
-    var serverResponseObjects: List<Any>
-    /**
-     * Present the response object for the endpoint
-     *
-     * Property: CLIENT_RESPONSE
-     */
-    //var clientResponse: String
 
     /**
      * Set/Get dynamic url parameters
@@ -93,6 +79,4 @@ sealed interface ServerWebScript {
     fun parse(file: File): SWS
 
     fun parse(file: File, rules: List<Rule>): SWS
-
-    //abstract fun parse(content: String)
 }

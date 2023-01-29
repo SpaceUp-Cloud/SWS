@@ -1,5 +1,5 @@
 /*
- * Copyright(c) 2022 spaceup@iatlas.technology.
+ * Copyright(c) 2023 spaceup@iatlas.technology.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy of this software and
  * associated documentation files (the "Software"), to deal in the Software without restriction,
@@ -17,10 +17,7 @@ import mu.KotlinLogging
 import org.junit.jupiter.api.Test
 import technology.iatlas.sws.ruleengine.rules.*
 import java.io.File
-import kotlin.test.assertEquals
-import kotlin.test.assertNotEquals
-import kotlin.test.assertNotNull
-import kotlin.test.assertTrue
+import kotlin.test.*
 
 internal class ServerWebScriptTest {
     private val logger = KotlinLogging.logger {}
@@ -125,5 +122,15 @@ internal class ServerWebScriptTest {
         assertNotNull(sws.serverEndpoint)
         assertNotNull(sws.serverScript)
         assertNotNull(sws.swaggerDoc)
+    }
+
+    @Test
+    fun `Generate client template`() {
+        val template = SWS.clientTemplate()
+        assertNotNull(template)
+        assertContains(template, "NAME")
+        assertContains(template, "SERVER_ENDPOINT")
+        assertContains(template, "SERVER_LANG")
+        assertContains(template, "SERVER_SCRIPT")
     }
 }
