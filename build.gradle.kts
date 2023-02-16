@@ -46,7 +46,7 @@ kotlin {
 }
 
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = "0.8.8"
     reportsDirectory.set(layout.buildDirectory.dir("jacoco"))
 }
 
