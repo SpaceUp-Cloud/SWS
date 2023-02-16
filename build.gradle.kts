@@ -33,7 +33,7 @@ repositories {
 dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.0")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.3")
-    implementation("ch.qos.logback:logback-classic:1.4.4")
+    implementation("ch.qos.logback:logback-classic:1.4.5")
     implementation("ch.qos.logback:logback-core:1.4.4")
     implementation("org.slf4j:slf4j-api:2.0.3")
     implementation("org.junit.jupiter:junit-jupiter:5.9.0")
@@ -46,7 +46,7 @@ kotlin {
 }
 
 jacoco {
-    toolVersion = "0.8.7"
+    toolVersion = "0.8.8"
     reportsDirectory.set(layout.buildDirectory.dir("jacoco"))
 }
 
