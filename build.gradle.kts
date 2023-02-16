@@ -34,7 +34,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-stdlib:1.8.10")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
     implementation("ch.qos.logback:logback-classic:1.4.5")
-    implementation("ch.qos.logback:logback-core:1.4.4")
+    implementation("ch.qos.logback:logback-core:1.4.5")
     implementation("org.slf4j:slf4j-api:2.0.6")
     implementation("org.junit.jupiter:junit-jupiter:5.9.0")
     implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.10")
