@@ -37,7 +37,7 @@ dependencies {
     implementation("ch.qos.logback:logback-core:1.4.8")
     implementation("org.slf4j:slf4j-api:2.0.7")
     implementation("org.junit.jupiter:junit-jupiter:5.9.3")
-    implementation("org.jetbrains.kotlin:kotlin-reflect:1.8.22")
+    implementation("org.jetbrains.kotlin:kotlin-reflect:1.9.0")
     testImplementation(kotlin("test"))
 }
 
