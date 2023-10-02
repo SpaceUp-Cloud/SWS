@@ -13,7 +13,7 @@
 
 plugins {
     kotlin("jvm") version "1.9.0"
-    id("org.sonarqube") version "4.3.0.3225"
+    id("org.sonarqube") version "4.4.0.3356"
     id("maven-publish")
     id("java")
     application
