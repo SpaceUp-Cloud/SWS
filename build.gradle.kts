@@ -31,7 +31,7 @@ repositories {
 }
 
 dependencies {
-    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.10")
+    implementation("org.jetbrains.kotlin:kotlin-stdlib:1.9.23")
     implementation("io.github.microutils:kotlin-logging-jvm:3.0.5")
     implementation("ch.qos.logback:logback-classic:1.4.11")
     implementation("ch.qos.logback:logback-core:1.4.11")
